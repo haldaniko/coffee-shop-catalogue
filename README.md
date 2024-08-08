@@ -10,7 +10,7 @@
 
 ## Structure
 
-...
+![sctructure.png](sctructure.png)
 
 ## Features
 
