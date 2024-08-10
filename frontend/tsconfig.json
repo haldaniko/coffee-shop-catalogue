@@ -1,4 +1,4 @@
 {
   "extends": "@mate-academy/students-ts-config",
-  "include": ["src"]
+  "include": ["src", "./.eslintrc.js"]
 }
