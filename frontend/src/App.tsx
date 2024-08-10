@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.scss';
+import { HomePage } from './modules/HomePage';
 
 interface Props {
   onClick: () => void;
@@ -16,7 +17,7 @@ export const App: React.FC = () => {
   return (
     <div className="starter">
       <Provider onClick={() => ({})}>TodoList</Provider>
-      <span>123</span>
+      <HomePage />
     </div>
   );
 };

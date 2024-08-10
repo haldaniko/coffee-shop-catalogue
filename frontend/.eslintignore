@@ -1,7 +1,7 @@
 /build
 /node_modules
 
-.eslintrc.js
+!.eslintrc.cjs
 ios/
 android/
 *.config.js
