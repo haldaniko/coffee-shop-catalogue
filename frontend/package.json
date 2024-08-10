@@ -1,0 +1,55 @@
+{
+  "homepage": ".",
+  "name": "react-typescript-starter-pack",
+  "version": "0.1.0",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.5.1",
+    "bulma": "^0.9.4",
+    "classnames": "^2.3.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "typescript": "^4.6.3",
+    "typescript-eslint-parser": "^22.0.0",
+    "web-vitals": "^1.1.1"
+  },
+  "scripts": {
+    "format": "prettier --write './src/**/*.{ts,tsx}'",
+    "lint": "npm run format && eslint ./src --fix",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@mate-academy/eslint-config-react-typescript": "latest",
+    "@mate-academy/students-ts-config": "latest",
+    "@types/node": "^16.18.80",
+    "@types/react": "^18.2.55",
+    "@types/react-dom": "^18.2.19",
+    "eslint": "^7.32.0",
+    "gh-pages": "^6.1.1",
+    "sass": "^1.72.0",
+    "prettier": "^3.2.5"
+  }
+}
