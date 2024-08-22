@@ -9,6 +9,7 @@ from .models import (
     Comment,
     Review
 )
+from user.serializers import UserSerializer
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -36,35 +37,34 @@ class WorkTimeSerializer(serializers.ModelSerializer):
 
 
 class CoffeeShopSerializer(serializers.ModelSerializer):
-    work_time = WorkTimeSerializer()
-    socials = SocialsSerializer()
     address = AddressSerializer()
-    tags = TagSerializer(many=True)
 
     class Meta:
         model = CoffeeShop
-        fields = '__all__'
+        fields = ("name", "phone", "image", "description", "address")
 
     def create(self, validated_data):
-        work_time_data = validated_data.pop('work_time')
-        socials_data = validated_data.pop('socials')
-        address_data = validated_data.pop('address')
-        tags_data = validated_data.pop('tags')
+        work_time_data = validated_data.pop('work_time', {})
+        socials_data = validated_data.pop('socials', {})
+        address_data = validated_data.pop('address', {})
 
         work_time = WorkTime.objects.create(**work_time_data)
         socials = Socials.objects.create(**socials_data)
         address = Address.objects.create(**address_data)
+
         coffee_shop = CoffeeShop.objects.create(
-            **validated_data, work_time=work_time, socials=socials, address=address
+            work_time=work_time,
+            socials=socials,
+            address=address,
+            **validated_data
         )
-        coffee_shop.tags.set(tags_data)
+
         return coffee_shop
 
     def update(self, instance, validated_data):
         work_time_data = validated_data.pop('work_time', None)
         socials_data = validated_data.pop('socials', None)
         address_data = validated_data.pop('address', None)
-        tags_data = validated_data.pop('tags', None)
 
         if work_time_data:
             for attr, value in work_time_data.items():
@@ -81,14 +81,37 @@ class CoffeeShopSerializer(serializers.ModelSerializer):
                 setattr(instance.address, attr, value)
             instance.address.save()
 
-        if tags_data:
-            instance.tags.set(tags_data)
-
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
         instance.save()
 
         return instance
+
+
+class CoffeeShopDetailSerializer(serializers.ModelSerializer):
+    work_time = WorkTimeSerializer()
+    tags = TagSerializer(many=True)
+    socials = SocialsSerializer()
+    owner = UserSerializer()
+    address = AddressSerializer()
+
+    class Meta:
+        model = CoffeeShop
+        fields = ("name",
+                  "phone",
+                  "image",
+                  "description",
+                  "work_time",
+                  "tags",
+                  "socials",
+                  "owner",
+                  "address")
+
+
+class CoffeeShopListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CoffeeShop
+        fields = ("name", "phone", "image", "description", "address")
 
 
 class GalleryImageSerializer(serializers.ModelSerializer):
@@ -100,10 +123,22 @@ class GalleryImageSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = '__all__'
+        fields = ("text", "shop")
+
+
+class CommentDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ("author", "text", "shop")
 
 
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
-        fields = '__all__'
+        fields = ("text", "stars", "shop")
+
+
+class ReviewDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = ("text", "stars", "author", "shop")
