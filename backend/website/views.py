@@ -17,7 +17,7 @@ from .serializers import (
     CoffeeShopSerializer,
     GalleryImageSerializer,
     CommentSerializer,
-    ReviewSerializer
+    ReviewSerializer, CoffeeShopDetailSerializer, CommentDetailSerializer, ReviewDetailSerializer
 )
 
 
@@ -43,7 +43,15 @@ class WorkTimeViewSet(viewsets.ModelViewSet):
 
 class CoffeeShopViewSet(viewsets.ModelViewSet):
     queryset = CoffeeShop.objects.all()
-    serializer_class = CoffeeShopSerializer
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return CoffeeShopSerializer
+
+        if self.action == "retrieve":
+            return CoffeeShopDetailSerializer
+
+        return CoffeeShopSerializer
 
 
 class GalleryImageViewSet(viewsets.ModelViewSet):
@@ -53,9 +61,17 @@ class GalleryImageViewSet(viewsets.ModelViewSet):
 
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
+
+    def get_serializer_class(self):
+        if self.action in ("list", "retrieve"):
+            return CommentDetailSerializer
+        return CommentSerializer
 
 
 class ReviewViewSet(viewsets.ModelViewSet):
     queryset = Review.objects.all()
-    serializer_class = ReviewSerializer
+
+    def get_serializer_class(self):
+        if self.action in ("list", "retrieve"):
+            return ReviewDetailSerializer
+        return ReviewSerializer
