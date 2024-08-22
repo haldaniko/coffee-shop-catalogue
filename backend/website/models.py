@@ -1,7 +1,24 @@
+import os
+import uuid
+
+from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
+from django.utils.text import slugify
 
-from user.models import User
+
+def image_file_path(instance, filename):
+    _, extension = os.path.splitext(filename)
+    filename = f"{slugify(instance.name)}-{uuid.uuid4()}{extension}"
+
+    return os.path.join(f"uploads/images/", filename)
+
+
+def gallerry_image_file_path(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = f'{uuid.uuid4()}.{ext}'
+    coffee_shop_name = instance.coffee_shop.name
+    return os.path.join('uploads', 'gallery', coffee_shop_name, filename)
 
 
 class Tag(models.Model):
@@ -55,12 +72,12 @@ class WorkTime(models.Model):
 class CoffeeShop(models.Model):
     name = models.CharField(max_length=255, blank=False)
     phone = models.CharField(max_length=20, blank=True, null=True)
-    image = models.ImageField(upload_to='coffee_shops/', blank=False)
+    image = models.ImageField(upload_to=image_file_path, blank=True)
     description = models.CharField(max_length=1024, blank=False)
     work_time = models.OneToOneField(WorkTime, on_delete=models.CASCADE)
-    tags = models.ManyToManyField(Tag, related_name='coffee_shops')
+    tags = models.ManyToManyField(Tag, related_name='coffee_shops', blank=True, null=True)
     socials = models.OneToOneField(Socials, on_delete=models.CASCADE)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     address = models.OneToOneField(Address, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -68,13 +85,13 @@ class CoffeeShop(models.Model):
 
 
 class GalleryImage(models.Model):
-    image = models.ImageField(upload_to='gallery_images/', blank=False)
+    image = models.ImageField(upload_to=gallerry_image_file_path, blank=False)
     coffee_shop = models.ForeignKey(CoffeeShop, related_name='gallery_images', on_delete=models.CASCADE)
 
 
 class Comment(models.Model):
     text = models.CharField(max_length=512, blank=True, null=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     shop = models.ForeignKey(CoffeeShop, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -90,7 +107,7 @@ class Review(models.Model):
         ],
         blank=False
     )
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     shop = models.ForeignKey(CoffeeShop, on_delete=models.CASCADE)
 
     def __str__(self):
