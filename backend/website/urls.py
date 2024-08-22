@@ -24,3 +24,5 @@ router.register(r'reviews', ReviewViewSet)
 urlpatterns = [
     path('', include(router.urls)),
 ]
+
+app_name = "website"
