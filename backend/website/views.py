@@ -1,4 +1,6 @@
 from django.db.models import Avg, Q
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiResponse
 from rest_framework import viewsets
 from .models import (
     Tag,
@@ -93,6 +95,39 @@ class CoffeeShopViewSet(viewsets.ModelViewSet):
             return CoffeeShopDetailSerializer
 
         return CoffeeShopSerializer
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(name='city', type=OpenApiTypes.STR, location=OpenApiParameter.QUERY,
+                             description='Filter by city name'),
+            OpenApiParameter(name='name', type=OpenApiTypes.STR, location=OpenApiParameter.QUERY,
+                             description='Filter by coffee shop name'),
+            OpenApiParameter(name='address', type=OpenApiTypes.STR, location=OpenApiParameter.QUERY,
+                             description='Filter by street address'),
+            OpenApiParameter(name='with_owner', type=OpenApiTypes.BOOL, location=OpenApiParameter.QUERY,
+                             description='Filter by presence of an owner (true or false)'),
+            OpenApiParameter(name='tags', type=OpenApiTypes.STR, location=OpenApiParameter.QUERY,
+                             description='Filter by tags (comma-separated list)'),
+            OpenApiParameter(name='min_rating', type=OpenApiTypes.INT, location=OpenApiParameter.QUERY,
+                             description='Filter by minimum rating'),
+            OpenApiParameter(name='max_rating', type=OpenApiTypes.INT, location=OpenApiParameter.QUERY,
+                             description='Filter by maximum rating')
+        ],
+        responses={
+            200: OpenApiResponse(
+                description='A list of coffee shops matching the query parameters',
+                response=CoffeeShopSerializer
+            )
+        },
+        description=(
+                "Retrieve a list of coffee shops with optional filtering by city, name, address, "
+                "owner presence, tags, and ratings. The response includes details such as average rating "
+                "and the list of coffee shops matching the given criteria."
+        ),
+        tags=['Coffee Shops']
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
 
 class GalleryImageViewSet(viewsets.ModelViewSet):

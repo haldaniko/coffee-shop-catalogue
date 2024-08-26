@@ -18,10 +18,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
+    "drf_spectacular",
     'user',
     'website'
 ]
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -96,10 +96,25 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',
     ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=20),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=20),
     "ROTATE_REFRESH_TOKENS": True,
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'CoffeeShop Catalog API',
+    'DESCRIPTION': (
+        "This API provides comprehensive functionality for managing a catalog of coffee shops. "
+        "It allows users to perform operations such as searching for coffee shops, viewing detailed "
+        "information about individual shops, and managing reviews and ratings. Users can also filter "
+        "coffee shops by various criteria including location, tags, and ratings. This API is designed "
+        "to facilitate both end-users looking for coffee shop recommendations and administrators managing "
+        "the coffee shop data."
+    ),
+    'VERSION': '1.0.0',
+    'SCHEMA_PATH_PREFIX': '/api/',
 }
