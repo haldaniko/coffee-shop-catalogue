@@ -2,6 +2,9 @@ from django.db.models import Avg, Q
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiResponse
 from rest_framework import viewsets
+from rest_framework.permissions import IsAdminUser
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
 from .models import (
     Tag,
     Socials,
@@ -12,6 +15,7 @@ from .models import (
     Comment,
     Review
 )
+from .permissions import IsAdminOrReadOnly
 from .serializers import (
     TagSerializer,
     SocialsSerializer,
@@ -25,26 +29,36 @@ from .serializers import (
 
 
 class TagViewSet(viewsets.ModelViewSet):
+    authentication_classes = (JWTAuthentication,)
+    permission_classes = (IsAdminUser,)
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
 
 
 class SocialsViewSet(viewsets.ModelViewSet):
+    authentication_classes = (JWTAuthentication,)
+    permission_classes = (IsAdminUser,)
     queryset = Socials.objects.all()
     serializer_class = SocialsSerializer
 
 
 class AddressViewSet(viewsets.ModelViewSet):
+    authentication_classes = (JWTAuthentication,)
+    permission_classes = (IsAdminUser,)
     queryset = Address.objects.all()
     serializer_class = AddressSerializer
 
 
 class WorkTimeViewSet(viewsets.ModelViewSet):
+    authentication_classes = (JWTAuthentication,)
+    permission_classes = (IsAdminUser,)
     queryset = WorkTime.objects.all()
     serializer_class = WorkTimeSerializer
 
 
 class CoffeeShopViewSet(viewsets.ModelViewSet):
+    authentication_classes = (JWTAuthentication,)
+    permission_classes = (IsAdminOrReadOnly,)
     queryset = CoffeeShop.objects.all()
     serializer_class = CoffeeShopSerializer
 
@@ -131,11 +145,15 @@ class CoffeeShopViewSet(viewsets.ModelViewSet):
 
 
 class GalleryImageViewSet(viewsets.ModelViewSet):
+    authentication_classes = (JWTAuthentication,)
+    permission_classes = (IsAdminUser,)
     queryset = GalleryImage.objects.all()
     serializer_class = GalleryImageSerializer
 
 
 class CommentViewSet(viewsets.ModelViewSet):
+    authentication_classes = (JWTAuthentication,)
+    permission_classes = (IsAdminUser,)
     queryset = Comment.objects.all()
 
     def get_serializer_class(self):
@@ -145,6 +163,8 @@ class CommentViewSet(viewsets.ModelViewSet):
 
 
 class ReviewViewSet(viewsets.ModelViewSet):
+    authentication_classes = (JWTAuthentication,)
+    permission_classes = (IsAdminUser,)
     queryset = Review.objects.all()
 
     def get_serializer_class(self):
