@@ -8,7 +8,7 @@ from .views import (
     CoffeeShopViewSet,
     GalleryImageViewSet,
     CommentViewSet,
-    ReviewViewSet
+    ReviewViewSet, CityStatsListView, IndexCoffeeShopListView
 )
 
 router = DefaultRouter()
@@ -23,6 +23,9 @@ router.register(r'reviews', ReviewViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('city-stats/', CityStatsListView.as_view(), name='city-stats-list'),
+    path('index-coffee-shops/', IndexCoffeeShopListView.as_view(), name='coffee-shops-list'),
 ]
+
 
 app_name = "website"
