@@ -1,0 +1,527 @@
+[
+  {
+    "model": "user.user",
+    "pk": 1,
+    "fields": {
+      "username": "john_doe",
+      "first_name": "John",
+      "last_name": "Doe",
+      "email": "john.doe@example.com",
+      "is_staff": true,
+      "is_active": true,
+      "is_superuser": true,
+      "password": "pbkdf2_sha256$260000$...",
+      "date_joined": "2023-08-01T00:00:00Z",
+      "photo": "",
+      "is_owner": true
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 2,
+    "fields": {
+      "username": "jane_smith",
+      "first_name": "Jane",
+      "last_name": "Smith",
+      "email": "jane.smith@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "is_superuser": false,
+      "password": "pbkdf2_sha256$260000$...",
+      "date_joined": "2023-08-01T00:00:00Z",
+      "photo": "",
+      "is_owner": false
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 3,
+    "fields": {
+      "username": "michael_jordan",
+      "first_name": "Michael",
+      "last_name": "Jordan",
+      "email": "michael.jordan@example.com",
+      "is_staff": true,
+      "is_active": true,
+      "is_superuser": false,
+      "password": "pbkdf2_sha256$260000$...",
+      "date_joined": "2023-08-01T00:00:00Z",
+      "photo": "",
+      "is_owner": true
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 4,
+    "fields": {
+      "username": "elena_kova",
+      "first_name": "Elena",
+      "last_name": "Kova",
+      "email": "elena.kova@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "is_superuser": false,
+      "password": "pbkdf2_sha256$260000$...",
+      "date_joined": "2023-08-01T00:00:00Z",
+      "photo": "",
+      "is_owner": false
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 5,
+    "fields": {
+      "username": "alice_wong",
+      "first_name": "Alice",
+      "last_name": "Wong",
+      "email": "alice.wong@example.com",
+      "is_staff": true,
+      "is_active": true,
+      "is_superuser": false,
+      "password": "pbkdf2_sha256$260000$...",
+      "date_joined": "2023-08-01T00:00:00Z",
+      "photo": "",
+      "is_owner": true
+    }
+  },
+  {
+    "model": "website.tag",
+    "pk": 1,
+    "fields": {
+      "name": "Wi-Fi",
+      "type": "convenience"
+    }
+  },
+  {
+    "model": "website.tag",
+    "pk": 2,
+    "fields": {
+      "name": "Vegan Options",
+      "type": "activity"
+    }
+  },
+  {
+    "model": "website.tag",
+    "pk": 3,
+    "fields": {
+      "name": "Pet Friendly",
+      "type": "convenience"
+    }
+  },
+  {
+    "model": "website.tag",
+    "pk": 4,
+    "fields": {
+      "name": "Outdoor Seating",
+      "type": "convenience"
+    }
+  },
+  {
+    "model": "website.tag",
+    "pk": 5,
+    "fields": {
+      "name": "Live Music",
+      "type": "activity"
+    }
+  },
+  {
+    "model": "website.socials",
+    "pk": 1,
+    "fields": {
+      "instagram": "https://instagram.com/bluebottle",
+      "facebook": "https://facebook.com/bluebottle",
+      "twitter": "https://twitter.com/bluebottle"
+    }
+  },
+  {
+    "model": "website.socials",
+    "pk": 2,
+    "fields": {
+      "instagram": "https://instagram.com/starbucks",
+      "facebook": "https://facebook.com/starbucks",
+      "twitter": "https://twitter.com/starbucks"
+    }
+  },
+  {
+    "model": "website.socials",
+    "pk": 3,
+    "fields": {
+      "instagram": "https://instagram.com/peetscoffee",
+      "facebook": "https://facebook.com/peetscoffee",
+      "twitter": "https://twitter.com/peetscoffee"
+    }
+  },
+  {
+    "model": "website.socials",
+    "pk": 4,
+    "fields": {
+      "instagram": "https://instagram.com/philzcoffee",
+      "facebook": "https://facebook.com/philzcoffee",
+      "twitter": "https://twitter.com/philzcoffee"
+    }
+  },
+  {
+    "model": "website.socials",
+    "pk": 5,
+    "fields": {
+      "instagram": "https://instagram.com/vervecoffee",
+      "facebook": "https://facebook.com/vervecoffee",
+      "twitter": "https://twitter.com/vervecoffee"
+    }
+  },
+  {
+    "model": "website.address",
+    "pk": 1,
+    "fields": {
+      "postal_code": 94103,
+      "street": "123 Mission St",
+      "city": "San Francisco"
+    }
+  },
+  {
+    "model": "website.address",
+    "pk": 2,
+    "fields": {
+      "postal_code": 94107,
+      "street": "456 Howard St",
+      "city": "San Francisco"
+    }
+  },
+  {
+    "model": "website.address",
+    "pk": 3,
+    "fields": {
+      "postal_code": 94108,
+      "street": "789 Market St",
+      "city": "San Francisco"
+    }
+  },
+  {
+    "model": "website.address",
+    "pk": 4,
+    "fields": {
+      "postal_code": 94110,
+      "street": "123 Valencia St",
+      "city": "San Francisco"
+    }
+  },
+  {
+    "model": "website.address",
+    "pk": 5,
+    "fields": {
+      "postal_code": 94114,
+      "street": "456 Castro St",
+      "city": "San Francisco"
+    }
+  },
+  {
+    "model": "website.worktime",
+    "pk": 1,
+    "fields": {
+      "mon_open": "08:00:00",
+      "mon_close": "18:00:00",
+      "tue_open": "08:00:00",
+      "tue_close": "18:00:00",
+      "wed_open": "08:00:00",
+      "wed_close": "18:00:00",
+      "thu_open": "08:00:00",
+      "thu_close": "18:00:00",
+      "fri_open": "08:00:00",
+      "fri_close": "18:00:00",
+      "sat_open": "09:00:00",
+      "sat_close": "17:00:00",
+      "sun_open": "09:00:00",
+      "sun_close": "15:00:00"
+    }
+  },
+  {
+    "model": "website.worktime",
+    "pk": 2,
+    "fields": {
+      "mon_open": "07:00:00",
+      "mon_close": "20:00:00",
+      "tue_open": "07:00:00",
+      "tue_close": "20:00:00",
+      "wed_open": "07:00:00",
+      "wed_close": "20:00:00",
+      "thu_open": "07:00:00",
+      "thu_close": "20:00:00",
+      "fri_open": "07:00:00",
+      "fri_close": "20:00:00",
+      "sat_open": "08:00:00",
+      "sat_close": "19:00:00",
+      "sun_open": "08:00:00",
+      "sun_close": "17:00:00"
+    }
+  },
+  {
+    "model": "website.worktime",
+    "pk": 3,
+    "fields": {
+      "mon_open": "06:00:00",
+      "mon_close": "22:00:00",
+      "tue_open": "06:00:00",
+      "tue_close": "22:00:00",
+      "wed_open": "06:00:00",
+      "wed_close": "22:00:00",
+      "thu_open": "06:00:00",
+      "thu_close": "22:00:00",
+      "fri_open": "06:00:00",
+      "fri_close": "22:00:00",
+      "sat_open": "07:00:00",
+      "sat_close": "21:00:00",
+      "sun_open": "07:00:00",
+      "sun_close": "20:00:00"
+    }
+  },
+  {
+    "model": "website.worktime",
+    "pk": 4,
+    "fields": {
+      "mon_open": "08:00:00",
+      "mon_close": "17:00:00",
+      "tue_open": "08:00:00",
+      "tue_close": "17:00:00",
+      "wed_open": "08:00:00",
+      "wed_close": "17:00:00",
+      "thu_open": "08:00:00",
+      "thu_close": "17:00:00",
+      "fri_open": "08:00:00",
+      "fri_close": "17:00:00",
+      "sat_open": "09:00:00",
+      "sat_close": "16:00:00",
+      "sun_open": "09:00:00",
+      "sun_close": "15:00:00"
+    }
+  },
+  {
+    "model": "website.worktime",
+    "pk": 5,
+    "fields": {
+      "mon_open": "09:00:00",
+      "mon_close": "18:00:00",
+      "tue_open": "09:00:00",
+      "tue_close": "18:00:00",
+      "wed_open": "09:00:00",
+      "wed_close": "18:00:00",
+      "thu_open": "09:00:00",
+      "thu_close": "18:00:00",
+      "fri_open": "09:00:00",
+      "fri_close": "18:00:00",
+      "sat_open": "10:00:00",
+      "sat_close": "16:00:00",
+      "sun_open": "10:00:00",
+      "sun_close": "15:00:00"
+    }
+  },
+  {
+    "model": "website.coffeeshop",
+    "pk": 1,
+    "fields": {
+      "name": "Blue Bottle Coffee",
+      "phone": "415-555-1234",
+      "image": "",
+      "description": "A great place for coffee and pastries.",
+      "work_time": 1,
+      "socials": 1,
+      "owner": 1,
+      "address": 1,
+      "tags": [1, 2]
+    }
+  },
+  {
+    "model": "website.coffeeshop",
+    "pk": 2,
+    "fields": {
+      "name": "Starbucks",
+      "phone": "415-555-5678",
+      "image": "",
+      "description": "The famous coffee chain with reliable brews.",
+      "work_time": 2,
+      "socials": 2,
+      "owner": 2,
+      "address": 2,
+      "tags": [1, 3]
+    }
+  },
+  {
+    "model": "website.coffeeshop",
+    "pk": 3,
+    "fields": {
+      "name": "Peet's Coffee",
+      "phone": "415-555-9876",
+      "image": "",
+      "description": "A classic place to enjoy your coffee.",
+      "work_time": 3,
+      "socials": 3,
+      "owner": 3,
+      "address": 3,
+      "tags": [2, 4]
+    }
+  },
+  {
+    "model": "website.coffeeshop",
+    "pk": 4,
+    "fields": {
+      "name": "Philz Coffee",
+      "phone": "415-555-6543",
+      "image": "",
+      "description": "Known for its custom blends.",
+      "work_time": 4,
+      "socials": 4,
+      "owner": 4,
+      "address": 4,
+      "tags": [1, 5]
+    }
+  },
+  {
+    "model": "website.coffeeshop",
+    "pk": 5,
+    "fields": {
+      "name": "Verve Coffee",
+      "phone": "415-555-3210",
+      "image": "",
+      "description": "Artisan coffee with a focus on quality.",
+      "work_time": 5,
+      "socials": 5,
+      "owner": null,
+      "address": 5,
+      "tags": [3, 4]
+    }
+  },
+  {
+    "model": "website.galleryimage",
+    "pk": 1,
+    "fields": {
+      "image": "",
+      "coffee_shop": 1
+    }
+  },
+  {
+    "model": "website.galleryimage",
+    "pk": 2,
+    "fields": {
+      "image": "",
+      "coffee_shop": 2
+    }
+  },
+  {
+    "model": "website.galleryimage",
+    "pk": 3,
+    "fields": {
+      "image": "",
+      "coffee_shop": 3
+    }
+  },
+  {
+    "model": "website.galleryimage",
+    "pk": 4,
+    "fields": {
+      "image": "",
+      "coffee_shop": 4
+    }
+  },
+  {
+    "model": "website.galleryimage",
+    "pk": 5,
+    "fields": {
+      "image": "",
+      "coffee_shop": 5
+    }
+  },
+  {
+    "model": "website.comment",
+    "pk": 1,
+    "fields": {
+      "text": "Love the ambiance and coffee!",
+      "author": 2,
+      "shop": 1
+    }
+  },
+  {
+    "model": "website.comment",
+    "pk": 2,
+    "fields": {
+      "text": "The service is always great here.",
+      "author": 3,
+      "shop": 2
+    }
+  },
+  {
+    "model": "website.comment",
+    "pk": 3,
+    "fields": {
+      "text": "A bit noisy but the coffee is good.",
+      "author": 4,
+      "shop": 3
+    }
+  },
+  {
+    "model": "website.comment",
+    "pk": 4,
+    "fields": {
+      "text": "Best coffee in town!",
+      "author": 5,
+      "shop": 4
+    }
+  },
+  {
+    "model": "website.comment",
+    "pk": 5,
+    "fields": {
+      "text": "Great place to work from!",
+      "author": 1,
+      "shop": 5
+    }
+  },
+  {
+    "model": "website.review",
+    "pk": 1,
+    "fields": {
+      "text": "Great coffee but a bit pricey.",
+      "stars": 4,
+      "author": 2,
+      "shop": 1
+    }
+  },
+  {
+    "model": "website.review",
+    "pk": 2,
+    "fields": {
+      "text": "Consistent quality and service.",
+      "stars": 5,
+      "author": 3,
+      "shop": 2
+    }
+  },
+  {
+    "model": "website.review",
+    "pk": 3,
+    "fields": {
+      "text": "Not bad, but I've had better.",
+      "stars": 3,
+      "author": 4,
+      "shop": 3
+    }
+  },
+  {
+    "model": "website.review",
+    "pk": 4,
+    "fields": {
+      "text": "Unique blends that I love!",
+      "stars": 5,
+      "author": 5,
+      "shop": 4
+    }
+  },
+  {
+    "model": "website.review",
+    "pk": 5,
+    "fields": {
+      "text": "The ambiance is perfect for meetings.",
+      "stars": 4,
+      "author": 1,
+      "shop": 5
+    }
+  }
+]

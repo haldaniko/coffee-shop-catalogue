@@ -21,6 +21,12 @@ def gallerry_image_file_path(instance, filename):
     return os.path.join('uploads', 'gallery', coffee_shop_name, filename)
 
 
+def city_image_file_path(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = f'{uuid.uuid4()}.{ext}'
+    return os.path.join('uploads', 'city', str(instance.id), filename)
+
+
 class Tag(models.Model):
     class TagType(models.TextChoices):
         ACTIVITY = 'activity', 'Activity'
@@ -69,16 +75,26 @@ class WorkTime(models.Model):
     sun_close = models.TimeField(blank=True, null=True)
 
 
+class City(models.Model):
+    city_name = models.CharField(max_length=32)
+    map_svg = models.ImageField(upload_to=city_image_file_path, blank=False)
+
+
 class CoffeeShop(models.Model):
     name = models.CharField(max_length=255, blank=False)
     phone = models.CharField(max_length=20, blank=True, null=True)
     image = models.ImageField(upload_to=image_file_path, blank=True)
     description = models.CharField(max_length=1024, blank=False)
+    price_rate = models.IntegerField(validators=[
+            MinValueValidator(1),
+            MaxValueValidator(3)
+        ],)
     work_time = models.OneToOneField(WorkTime, on_delete=models.CASCADE)
-    tags = models.ManyToManyField(Tag, related_name='coffee_shops', blank=True, null=True)
+    tags = models.ManyToManyField(Tag, related_name='coffee_shops')
     socials = models.OneToOneField(Socials, on_delete=models.CASCADE)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     address = models.OneToOneField(Address, on_delete=models.CASCADE)
+    city = models.ForeignKey(City, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
