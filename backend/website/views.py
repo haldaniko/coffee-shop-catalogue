@@ -1,8 +1,9 @@
 from django.db.models import Avg, Q
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiResponse
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from rest_framework.permissions import IsAdminUser
+from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .models import (
@@ -13,7 +14,7 @@ from .models import (
     CoffeeShop,
     GalleryImage,
     Comment,
-    Review
+    Review, City
 )
 from .permissions import IsAdminOrReadOnly
 from .serializers import (
@@ -24,7 +25,8 @@ from .serializers import (
     CoffeeShopSerializer,
     GalleryImageSerializer,
     CommentSerializer,
-    ReviewSerializer, CoffeeShopDetailSerializer, CommentDetailSerializer, ReviewDetailSerializer
+    ReviewSerializer, CoffeeShopDetailSerializer, CommentDetailSerializer, ReviewDetailSerializer, CityStatsSerializer,
+    IndexCoffeeShopSerializer
 )
 
 
@@ -171,3 +173,25 @@ class ReviewViewSet(viewsets.ModelViewSet):
         if self.action in ("list", "retrieve"):
             return ReviewDetailSerializer
         return ReviewSerializer
+
+
+class CityStatsListView(generics.ListAPIView):
+    queryset = City.objects.all()
+    serializer_class = CityStatsSerializer
+
+
+class IndexCoffeeShopListView(generics.GenericAPIView):
+    def get(self, request, *args, **kwargs):
+
+        popular_shops = CoffeeShop.objects.annotate(
+            average_rating=Avg("review__stars")
+        ).order_by("-average_rating")[:6]
+        popular_shops_serializer = IndexCoffeeShopSerializer(popular_shops, many=True)
+
+        recent_shops = CoffeeShop.objects.order_by('-id')[:6]
+        recent_shops_serializer = IndexCoffeeShopSerializer(recent_shops, many=True)
+
+        return Response({
+            'popular': popular_shops_serializer.data,
+            'recent': recent_shops_serializer.data,
+        })
