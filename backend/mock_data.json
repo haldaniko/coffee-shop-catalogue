@@ -315,6 +315,22 @@
     }
   },
   {
+    "model": "website.city",
+    "pk": 1,
+    "fields": {
+      "city_name": "Kyiv",
+      "map_svg": "Write it right here"
+    }
+  },
+  {
+    "model": "website.city",
+    "pk": 2,
+    "fields": {
+      "city_name": "Lviv",
+      "map_svg": "Write it right here"
+    }
+  },
+  {
     "model": "website.coffeeshop",
     "pk": 1,
     "fields": {
@@ -322,11 +338,16 @@
       "phone": "415-555-1234",
       "image": "",
       "description": "A great place for coffee and pastries.",
+      "price_rate": 1,
       "work_time": 1,
       "socials": 1,
       "owner": 1,
       "address": 1,
-      "tags": [1, 2]
+      "city": 1,
+      "tags": [
+        1,
+        2
+      ]
     }
   },
   {
@@ -337,11 +358,16 @@
       "phone": "415-555-5678",
       "image": "",
       "description": "The famous coffee chain with reliable brews.",
+      "price_rate": 1,
       "work_time": 2,
       "socials": 2,
       "owner": 2,
       "address": 2,
-      "tags": [1, 3]
+      "city": 1,
+      "tags": [
+        1,
+        3
+      ]
     }
   },
   {
@@ -352,11 +378,16 @@
       "phone": "415-555-9876",
       "image": "",
       "description": "A classic place to enjoy your coffee.",
+      "price_rate": 2,
       "work_time": 3,
       "socials": 3,
       "owner": 3,
       "address": 3,
-      "tags": [2, 4]
+      "city": 1,
+      "tags": [
+        2,
+        4
+      ]
     }
   },
   {
@@ -367,11 +398,16 @@
       "phone": "415-555-6543",
       "image": "",
       "description": "Known for its custom blends.",
+      "price_rate": 3,
       "work_time": 4,
       "socials": 4,
       "owner": 4,
       "address": 4,
-      "tags": [1, 5]
+      "city": 2,
+      "tags": [
+        1,
+        5
+      ]
     }
   },
   {
@@ -382,11 +418,16 @@
       "phone": "415-555-3210",
       "image": "",
       "description": "Artisan coffee with a focus on quality.",
+      "price_rate": 2,
       "work_time": 5,
       "socials": 5,
       "owner": null,
       "address": 5,
-      "tags": [3, 4]
+      "city": 2,
+      "tags": [
+        3,
+        4
+      ]
     }
   },
   {
