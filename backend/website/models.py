@@ -21,12 +21,6 @@ def gallerry_image_file_path(instance, filename):
     return os.path.join('uploads', 'gallery', coffee_shop_name, filename)
 
 
-def city_image_file_path(instance, filename):
-    ext = filename.split('.')[-1]
-    filename = f'{uuid.uuid4()}.{ext}'
-    return os.path.join('uploads', 'city', str(instance.id), filename)
-
-
 class Tag(models.Model):
     class TagType(models.TextChoices):
         ACTIVITY = 'activity', 'Activity'
@@ -77,7 +71,7 @@ class WorkTime(models.Model):
 
 class City(models.Model):
     city_name = models.CharField(max_length=32)
-    map_svg = models.ImageField(upload_to=city_image_file_path, blank=False)
+    map_svg = models.TextField()
 
 
 class CoffeeShop(models.Model):
