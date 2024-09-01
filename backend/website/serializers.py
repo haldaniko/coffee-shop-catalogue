@@ -1,3 +1,4 @@
+from django.db.models import Avg
 from rest_framework import serializers
 from .models import (
     Tag,
@@ -7,7 +8,7 @@ from .models import (
     CoffeeShop,
     GalleryImage,
     Comment,
-    Review
+    Review, City
 )
 from user.serializers import UserSerializer
 
@@ -27,7 +28,7 @@ class SocialsSerializer(serializers.ModelSerializer):
 class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
-        fields = '__all__'
+        fields = ("city", "postal_code", "street")
 
 
 class WorkTimeSerializer(serializers.ModelSerializer):
@@ -41,7 +42,7 @@ class CoffeeShopSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CoffeeShop
-        fields = ("name", "phone", "image", "description", "address")
+        fields = ("id", "name", "phone", "image", "description", "address")
 
     def create(self, validated_data):
         work_time_data = validated_data.pop('work_time', {})
@@ -142,3 +143,43 @@ class ReviewDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = ("text", "stars", "author", "shop")
+
+
+class CityStatsSerializer(serializers.ModelSerializer):
+    shops = serializers.SerializerMethodField()
+    owners = serializers.SerializerMethodField()
+    evaluations = serializers.SerializerMethodField()
+    comments = serializers.SerializerMethodField()
+
+    class Meta:
+        model = City
+        fields = ['id', 'city_name', 'map_svg', 'shops', 'owners', 'evaluations', 'comments']
+
+    def get_shops(self, obj):
+        return CoffeeShop.objects.filter(city=obj).count()
+
+    def get_owners(self, obj):
+        return CoffeeShop.objects.filter(city=obj).values('owner').distinct().count()
+
+    def get_evaluations(self, obj):
+        return Review.objects.filter(shop__city=obj).count()
+
+    def get_comments(self, obj):
+        return Comment.objects.filter(shop__city=obj).count()
+
+
+class IndexCoffeeShopSerializer(serializers.ModelSerializer):
+    rating = serializers.SerializerMethodField()
+    owner = serializers.SerializerMethodField()
+    address = AddressSerializer()
+
+    class Meta:
+        model = CoffeeShop
+        fields = ['id', 'name', 'address', 'rating', 'image', 'price_rate', 'owner']
+
+    def get_rating(self, obj):
+        average_rating = Review.objects.filter(shop=obj).aggregate(average_rating=Avg('stars'))['average_rating']
+        return average_rating if average_rating is not None else None
+
+    def get_owner(self, obj):
+        return obj.owner is not None
