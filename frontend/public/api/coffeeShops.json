@@ -1,0 +1,48 @@
+[
+  {
+    "popular": [
+      {
+        "id": 123,
+        "name": "Lviv Croissants",
+        "city": "Kyiv",
+        "address": "Verkhnii Val St, 54",
+        "rating": 4.7,
+        "preview": "url",
+        "cost": 0,
+        "owner": true
+      },
+      {
+        "id": 124,
+        "name": " Art Village",
+        "city": "Kyiv",
+        "address": "Naberezhno-Khreshachatyts'ka St, 39",
+        "rating": 5,
+        "preview": "url",
+        "cost": "high",
+        "owner": false
+      }
+    ],
+    "recent": [
+      {
+        "id": 158,
+        "name": "ZAKAPELOK",
+        "city": "Kyiv",
+        "address": "Yaroslavska St, 47/29, Kyiv, 04070",
+        "rating": 4.8,
+        "preview": "url",
+        "cost": 1,
+        "owner": false
+      },
+      {
+        "id": 124,
+        "name": " Art Village",
+        "city": "Kyiv",
+        "address": "Naberezhno-Khreshachatyts'ka St, 39",
+        "rating": 5,
+        "preview": "url",
+        "cost": "high",
+        "owner": false
+      }
+    ]
+  }
+]
