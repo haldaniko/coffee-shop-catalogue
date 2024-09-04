@@ -78,7 +78,7 @@ class PasswordResetRequestView(views.APIView):
         if serializer.is_valid():
             email = serializer.validated_data['email']
             try:
-                user = User.objects.get(email=email)
+                user = User.objects.get(email__iexact=email)
             except User.DoesNotExist:
                 return Response({"error": "No user with this email address."}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -90,7 +90,6 @@ class PasswordResetRequestView(views.APIView):
             message = render_to_string('registration/password_reset_email.html', {
                 'user': user,
                 'reset_link': reset_link,
-                'site_name': 'Your Site Name',
                 'protocol': request.scheme,
                 'domain': request.get_host(),
             })
