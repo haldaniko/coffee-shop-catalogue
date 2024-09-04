@@ -30,34 +30,6 @@ from .serializers import (
 )
 
 
-class TagViewSet(viewsets.ModelViewSet):
-    authentication_classes = (JWTAuthentication,)
-    permission_classes = (IsAdminUser,)
-    queryset = Tag.objects.all()
-    serializer_class = TagSerializer
-
-
-class SocialsViewSet(viewsets.ModelViewSet):
-    authentication_classes = (JWTAuthentication,)
-    permission_classes = (IsAdminUser,)
-    queryset = Socials.objects.all()
-    serializer_class = SocialsSerializer
-
-
-class AddressViewSet(viewsets.ModelViewSet):
-    authentication_classes = (JWTAuthentication,)
-    permission_classes = (IsAdminUser,)
-    queryset = Address.objects.all()
-    serializer_class = AddressSerializer
-
-
-class WorkTimeViewSet(viewsets.ModelViewSet):
-    authentication_classes = (JWTAuthentication,)
-    permission_classes = (IsAdminUser,)
-    queryset = WorkTime.objects.all()
-    serializer_class = WorkTimeSerializer
-
-
 class CoffeeShopViewSet(viewsets.ModelViewSet):
     authentication_classes = (JWTAuthentication,)
     permission_classes = (IsAdminOrReadOnly,)
@@ -144,35 +116,6 @@ class CoffeeShopViewSet(viewsets.ModelViewSet):
     )
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
-
-
-class GalleryImageViewSet(viewsets.ModelViewSet):
-    authentication_classes = (JWTAuthentication,)
-    permission_classes = (IsAdminUser,)
-    queryset = GalleryImage.objects.all()
-    serializer_class = GalleryImageSerializer
-
-
-class CommentViewSet(viewsets.ModelViewSet):
-    authentication_classes = (JWTAuthentication,)
-    permission_classes = (IsAdminUser,)
-    queryset = Comment.objects.all()
-
-    def get_serializer_class(self):
-        if self.action in ("list", "retrieve"):
-            return CommentDetailSerializer
-        return CommentSerializer
-
-
-class ReviewViewSet(viewsets.ModelViewSet):
-    authentication_classes = (JWTAuthentication,)
-    permission_classes = (IsAdminUser,)
-    queryset = Review.objects.all()
-
-    def get_serializer_class(self):
-        if self.action in ("list", "retrieve"):
-            return ReviewDetailSerializer
-        return ReviewSerializer
 
 
 class CityStatsListView(generics.ListAPIView):
