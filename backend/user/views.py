@@ -16,12 +16,15 @@ from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth import get_user_model
 
 
-from backend.catalog import settings
-from backend.user.serializers import ChangePasswordSerializer, PasswordResetRequestSerializer, \
+from catalog import settings
+from user.serializers import ChangePasswordSerializer, PasswordResetRequestSerializer, \
     PasswordResetConfirmSerializer
 
 from user.models import User
 from user.serializers import UserSerializer, AuthTokenSerializer
+
+from website.models import CoffeeShop
+from website.serializers import CoffeeShopSerializer
 
 
 class CreateUserView(generics.CreateAPIView):
@@ -145,3 +148,41 @@ class PasswordResetConfirmView(views.APIView):
             return Response({"success": "Password has been reset successfully."}, status=status.HTTP_200_OK)
         else:
             return Response({"error": "New password not provided."}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class AddFavoriteShopView(views.APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, shop_id):
+        user = request.user
+        try:
+            shop = CoffeeShop.objects.get(id=shop_id)
+        except CoffeeShop.DoesNotExist:
+            return Response({"detail": "Shop not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        user.favorite_shops.add(shop)
+        return Response({"detail": "Shop added to favorites."}, status=status.HTTP_200_OK)
+
+
+class RemoveFavoriteShopView(views.APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, shop_id):
+        user = request.user
+        try:
+            shop = CoffeeShop.objects.get(id=shop_id)
+        except CoffeeShop.DoesNotExist:
+            return Response({"detail": "Shop not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        user.favorite_shops.remove(shop)
+        return Response({"detail": "Shop removed from favorites."}, status=status.HTTP_200_OK)
+
+
+class ListFavoriteShopsView(views.APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        favorite_shops = user.favorite_shops.all()
+        serializer = CoffeeShopSerializer(favorite_shops, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
