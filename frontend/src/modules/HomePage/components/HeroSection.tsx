@@ -8,7 +8,6 @@ import { Bean } from '../../../shared/components/Bean';
 import { City } from '../../../shared/types/City';
 import { HeroBadges } from '../../../shared/types/HeroBadges';
 import { HeroBadge } from './HeroBadge';
-// import coffeeBeanSVG from '../../../assets/icons/coffee-bean.svg';
 
 type Props = {
   cities: City[];
@@ -133,12 +132,14 @@ export const HeroSection: React.FC<Props> = ({
         <div className="absolute bg-black opacity-70 inset-0"></div>
       </div>
 
-      <div className="absolute w-[200px] h-[200px] -bottom-[23%] -left-[10%] rotate-[65deg]">
-        <Bean extraClasses="stroke-1 stroke-primary/100" />
-      </div>
-      <div className="absolute w-[100px] h-[100px] -bottom-[17%] right-[40%]">
-        <Bean extraClasses="stroke-2 stroke-primary/100" />
-      </div>
+      <Bean
+        size="200"
+        positionClasses="absolute -bottom-[23%] -left-[10%] rotate-[135deg]"
+      />
+      <Bean
+        size="100"
+        positionClasses="absolute -bottom-[17%] right-[40%] rotate-[75deg]"
+      />
     </section>
   );
 };

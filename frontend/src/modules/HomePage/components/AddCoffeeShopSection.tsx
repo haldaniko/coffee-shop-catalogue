@@ -41,12 +41,14 @@ export const AddCoffeeShopSection = () => {
         </div>
       </div>
 
-      <div className="absolute w-[150px] h-[150px] -top-[30px] right-[210px] rotate-[30deg]">
-        <Bean extraClasses="stroke-1 stroke-primary/100" />
-      </div>
-      <div className="absolute w-[100px] h-[100px] -bottom-[42%] left-[40%] rotate-[10deg]">
-        <Bean extraClasses="stroke-2 stroke-primary/100" />
-      </div>
+      <Bean
+        size="150"
+        positionClasses="absolute -top-[10%] right-[21%] rotate-[105deg]"
+      />
+      <Bean
+        size="100"
+        positionClasses="absolute -bottom-[42%] left-[40%] rotate-[60deg]"
+      />
     </section>
   );
 };

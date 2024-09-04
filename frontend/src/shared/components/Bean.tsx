@@ -1,14 +1,38 @@
 /* eslint-disable max-len */
-import coffeeBeanSVG from '../../assets/icons/coffee-bean.svg';
 
 type Props = {
-  extraClasses: string;
+  size: '80' | '100' | '150' | '200';
+  positionClasses?: string;
 };
 
-export const Bean: React.FC<Props> = ({ extraClasses }) => {
+export const Bean: React.FC<Props> = ({ size, positionClasses = '' }) => {
+  const styleGeneral = 'block w-full h-full bg-no-repeat bg-contain';
+  const sizeValue = `${size}px`;
+  let bg = '';
+
+  switch (size) {
+    case '80':
+      bg = 'bg-bean80';
+      break;
+    case '100':
+      bg = 'bg-bean100';
+      break;
+    case '150':
+      bg = 'bg-bean150';
+      break;
+    case '200':
+      bg = 'bg-bean200';
+      break;
+    default:
+      break;
+  }
+
   return (
-    <svg className={`fill-none w-full h-full ${extraClasses}`}>
-      <use href={`${coffeeBeanSVG}#coffee-bean`} />
-    </svg>
+    <div
+      style={{ width: sizeValue, height: sizeValue }}
+      className={positionClasses}
+    >
+      <span className={`${styleGeneral} ${bg}`}></span>
+    </div>
   );
 };

@@ -68,7 +68,7 @@ export const CoffeeShopCard: React.FC<Props> = ({
       </p>
 
       <FollowLink
-        type="secondary"
+        appearance="secondary"
         linkTo="#"
         extraClasses="w-full justify-center"
       >
