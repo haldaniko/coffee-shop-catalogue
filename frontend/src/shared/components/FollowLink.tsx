@@ -1,13 +1,13 @@
 type Props = {
   children: React.ReactNode;
-  type: 'primary' | 'secondary';
+  appearance: 'primary' | 'primary-full' | 'secondary';
   linkTo: string;
   extraClasses?: string;
 };
 
 export const FollowLink: React.FC<Props> = ({
   children,
-  type,
+  appearance,
   linkTo,
   extraClasses = '',
 }) => {
@@ -15,13 +15,27 @@ export const FollowLink: React.FC<Props> = ({
   const styleText =
     'font-primary font-semibold text-[18px] leading-[27px] text-secondary/100';
   const stylePrimary = `${styleGeneral} ${styleText} bg-primary/100`;
+  const stylePrimaryFull = `${stylePrimary} w-full justify-center`;
   const styleSecondary = `${styleGeneral} ${styleText}`;
 
+  let styleLink = '';
+
+  switch (appearance) {
+    case 'primary':
+      styleLink += stylePrimary;
+      break;
+    case 'primary-full':
+      styleLink += stylePrimaryFull;
+      break;
+    case 'secondary':
+      styleLink += styleSecondary;
+      break;
+    default:
+      break;
+  }
+
   return (
-    <a
-      href={linkTo}
-      className={type === 'primary' ? stylePrimary : styleSecondary}
-    >
+    <a href={linkTo} className={styleLink}>
       {children}
     </a>
   );

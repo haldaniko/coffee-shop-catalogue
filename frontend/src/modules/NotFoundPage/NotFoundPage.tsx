@@ -28,7 +28,7 @@ export const NotFoundPage = () => {
                 <h1 className="font-primary font-semibold text-[24px] leading-[32px] text-secondary/100 mb-[80px]">
                   Sorry! Something seems to have gone wrong
                 </h1>
-                <FollowLink type="primary" linkTo="/">
+                <FollowLink appearance="primary-full" linkTo="/">
                   Go Home
                 </FollowLink>
                 <p className="font-primary italic text-gray/30 mt-10">

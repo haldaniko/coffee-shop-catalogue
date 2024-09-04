@@ -37,11 +37,11 @@ export const Navbar = () => {
           <option value="uk">UK</option>
         </select>
 
-        <FollowLink type="secondary" linkTo="/login">
+        <FollowLink appearance="secondary" linkTo="/login">
           Sign in
         </FollowLink>
 
-        <FollowLink type="primary" linkTo="/registration">
+        <FollowLink appearance="primary" linkTo="/registration">
           Sign up
         </FollowLink>
         {/* <div>
