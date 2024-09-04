@@ -5,7 +5,6 @@ import { SectionTitle } from '../../../shared/components/typography/SectionTitle
 import imgZakapelok from '../../../assets/images/preview-zakapelok.jpg';
 import imgArtVillage from '../../../assets/images/preview-art-village.jpg';
 import imgLvivCroissants from '../../../assets/images/preview-lviv-croissants.jpg';
-// import beanIcon from '../../../assets/icons/coffee-bean.svg';
 import { Bean } from '../../../shared/components/Bean';
 
 const mostPopular = [
@@ -61,17 +60,10 @@ export const MostPopularSection = () => {
           <li className="block w-[10px] h-[10px] rounded-full bg-gray/30 mb-0"></li>
         </ul>
 
-        {/* <span
-          style={{
-            maskImage: `url(${beanIcon})`,
-            maskRepeat: 'no-repeat',
-            maskSize: 'contain',
-          }}
-          className="absolute -bottom-[50px] -right-[80px] flex w-[150px] h-[150px] bg-green rotate-[30deg]"
-        ></span> */}
-        <div className="absolute w-[150px] h-[150px] -bottom-[15px] -right-[110px] rotate-[30deg]">
-          <Bean extraClasses="stroke-1 stroke-primary/100" />
-        </div>
+        <Bean
+          size="150"
+          positionClasses="absolute bottom-[2%] -right-[11%] rotate-[105deg]"
+        />
       </PageGrid>
     </section>
   );

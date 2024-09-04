@@ -61,9 +61,10 @@ export const RecentlyAddedSection = () => {
         </ul>
       </PageGrid>
 
-      <div className="absolute w-[80px] h-[80px] top-[65%] -left-[8%] rotate-[5deg]">
-        <Bean extraClasses="stroke-2 stroke-primary/100" />
-      </div>
+      <Bean
+        size="80"
+        positionClasses="absolute top-[65%] -left-[8%] rotate-[5deg]"
+      />
     </section>
   );
 };

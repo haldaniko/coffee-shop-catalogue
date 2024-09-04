@@ -5,8 +5,10 @@ module.exports = {
     extend: {
       backgroundImage: {
         hero: "url('assets/images/hero-bg-square.jpg')",
-        kyiv: "url('assets/images/map-solid-Kyiv.png')",
-        'map-kyiv': "url('assets/images/Kyiv2.svg')",
+        bean80: "url('assets/images/coffee-bean-80.svg')",
+        bean100: "url('assets/images/coffee-bean-100.svg')",
+        bean150: "url('assets/images/coffee-bean-150.svg')",
+        bean200: "url('assets/images/coffee-bean-200.svg')",
       },
     },
     fontFamily: {

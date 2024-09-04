@@ -231,9 +231,10 @@ export const AboutUs: React.FC<Props> = ({ trustBadges }) => {
           </li>
         </ul>
 
-        <div className="absolute w-[150px] h-[150px] top-[50%] -right-[11%] rotate-[30deg]">
-          <Bean extraClasses="stroke-1 stroke-primary/100" />
-        </div>
+        <Bean
+          size="150"
+          positionClasses="absolute top-[50%] -right-[11%] rotate-[105deg]"
+        />
       </div>
     </section>
   );
