@@ -2,32 +2,24 @@ from django.db.models import Avg, Q
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiResponse
 from rest_framework import viewsets, generics
-from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .models import (
-    Tag,
-    Socials,
-    Address,
-    WorkTime,
-    CoffeeShop,
-    GalleryImage,
-    Comment,
-    Review, City
+    CoffeeShop, City
 )
 from .permissions import IsAdminOrReadOnly
 from .serializers import (
-    TagSerializer,
-    SocialsSerializer,
-    AddressSerializer,
-    WorkTimeSerializer,
     CoffeeShopSerializer,
-    GalleryImageSerializer,
-    CommentSerializer,
-    ReviewSerializer, CoffeeShopDetailSerializer, CommentDetailSerializer, ReviewDetailSerializer, CityStatsSerializer,
-    IndexCoffeeShopSerializer
+    CoffeeShopDetailSerializer,
+    CityStatsSerializer,
+    IndexCoffeeShopSerializer,
 )
+
+
+class CityStatsListView(generics.ListAPIView):
+    queryset = City.objects.all()
+    serializer_class = CityStatsSerializer
 
 
 class CoffeeShopViewSet(viewsets.ModelViewSet):
@@ -116,11 +108,6 @@ class CoffeeShopViewSet(viewsets.ModelViewSet):
     )
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
-
-
-class CityStatsListView(generics.ListAPIView):
-    queryset = City.objects.all()
-    serializer_class = CityStatsSerializer
 
 
 class IndexCoffeeShopListView(generics.GenericAPIView):
