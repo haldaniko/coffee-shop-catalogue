@@ -9,6 +9,7 @@ module.exports = {
         bean100: "url('assets/images/coffee-bean-100.svg')",
         bean150: "url('assets/images/coffee-bean-150.svg')",
         bean200: "url('assets/images/coffee-bean-200.svg')",
+        done: "url('assets/icons/done.svg')",
       },
     },
     fontFamily: {

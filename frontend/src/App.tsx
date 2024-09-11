@@ -6,7 +6,7 @@ import { Footer } from './shared/components/Footer';
 
 export const App: React.FC = () => {
   return (
-    <div className="starter container min-h-screen">
+    <div className="starter min-h-screen">
       <Navbar />
 
       <HomePage />

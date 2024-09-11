@@ -6,6 +6,7 @@ import imgZakapelok from '../../../assets/images/preview-zakapelok.jpg';
 import imgArtVillage from '../../../assets/images/preview-art-village.jpg';
 import imgLvivCroissants from '../../../assets/images/preview-lviv-croissants.jpg';
 import { Bean } from '../../../shared/components/Bean';
+import { Container } from '../../../shared/components/Container';
 
 const mostPopular = [
   {
@@ -33,38 +34,40 @@ const mostPopular = [
 
 export const MostPopularSection = () => {
   return (
-    <section className="relative mb-20">
-      <SectionTitle>Most Popular</SectionTitle>
-      <PageGrid>
-        <ul className="flex gap-4 col-span-4 mb-[24px] z-10">
-          {mostPopular.map((cs, index) => {
-            const { image, title, address, rating, price } = cs;
+    <section>
+      <Container>
+        <div className="relative mb-20">
+          <SectionTitle>Most Popular</SectionTitle>
+          <PageGrid>
+            <ul className="flex gap-4 col-span-4 mb-[24px] z-10">
+              {mostPopular.map((cs, index) => {
+                const { image, title, address, rating, price } = cs;
 
-            return (
-              <li key={index} className="min-w-full">
-                <CoffeeShopCard
-                  image={image}
-                  title={title}
-                  address={address}
-                  rating={rating}
-                  price={price}
-                />
-              </li>
-            );
-          })}
-        </ul>
-
-        <ul className="col-start-5 col-span-4 row-start-2 flex gap-10 justify-center">
-          <li className="block w-[10px] h-[10px] rounded-full bg-secondary/100 mb-0"></li>
-          <li className="block w-[10px] h-[10px] rounded-full bg-gray/30 mb-0"></li>
-          <li className="block w-[10px] h-[10px] rounded-full bg-gray/30 mb-0"></li>
-        </ul>
-
-        <Bean
-          size="150"
-          positionClasses="absolute bottom-[2%] -right-[11%] rotate-[105deg]"
-        />
-      </PageGrid>
+                return (
+                  <li key={index} className="min-w-full">
+                    <CoffeeShopCard
+                      image={image}
+                      title={title}
+                      address={address}
+                      rating={rating}
+                      price={price}
+                    />
+                  </li>
+                );
+              })}
+            </ul>
+            <ul className="col-start-5 col-span-4 row-start-2 flex gap-10 justify-center">
+              <li className="block w-[10px] h-[10px] rounded-full bg-secondary/100 mb-0"></li>
+              <li className="block w-[10px] h-[10px] rounded-full bg-gray/30 mb-0"></li>
+              <li className="block w-[10px] h-[10px] rounded-full bg-gray/30 mb-0"></li>
+            </ul>
+            <Bean
+              size="150"
+              positionClasses="absolute bottom-[2%] -right-[11%] rotate-[105deg]"
+            />
+          </PageGrid>
+        </div>
+      </Container>
     </section>
   );
 };
