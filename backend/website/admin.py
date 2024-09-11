@@ -7,7 +7,7 @@ from .models import (
     GalleryImage,
     Review,
     Socials,
-    WorkTime
+    WorkTime, City
 )
 
 
@@ -21,6 +21,12 @@ class TagAdmin(admin.ModelAdmin):
 class AddressAdmin(admin.ModelAdmin):
     list_display = ('postal_code', 'street', 'city')
     search_fields = ('postal_code', 'street', 'city')
+
+
+@admin.register(City)
+class CityAdmin(admin.ModelAdmin):
+    list_display = ('city_name',)
+    search_fields = ('city_name',)
 
 
 @admin.register(CoffeeShop)
