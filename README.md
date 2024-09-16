@@ -39,7 +39,7 @@ python backend\manage.py runserver
 
 ```
 
-( will be available at http://127.0.0.1:8000/api/
+API will be available at http://127.0.0.1:8000/api/
 
 ## Architecture
 
