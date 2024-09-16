@@ -6,12 +6,24 @@ import { RegistrationPage } from './modules/RegistrationPage';
 import { ResetPasswordPage } from './modules/ResetPasswordPage';
 import { CheckEmailPage } from './modules/CheckEmailPage';
 import { CreateNewPasswordPage } from './modules/CreateNewPasswordPage';
+import { CoffeeShop } from './modules/CoffeeShopPage';
+import { HomePage } from './modules/HomePage';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
     errorElement: <NotFoundPage />,
+    children: [
+      {
+        path: '/',
+        element: <HomePage />,
+      },
+      {
+        path: '/coffee-shop/:coffee-shop-id',
+        element: <CoffeeShop />,
+      },
+    ],
   },
   {
     path: '/login',

@@ -16,10 +16,6 @@ module.exports = {
       primary: ['Hind'],
       secondary: ['Josefin Sans'],
     },
-    fontSize: {
-      xl: '1.25rem',
-      '4xl': '2.5rem',
-    },
     colors: {
       'primary/100': '#7D8D71',
       'secondary/100': '#2B2B2B',
@@ -30,6 +26,7 @@ module.exports = {
       'default/100': '#ACB29D',
       'disabled/100': '#B4B6AE',
       'background/100': '#DDD8CB',
+      success: '#718D83',
       black: '#000000',
     },
   },

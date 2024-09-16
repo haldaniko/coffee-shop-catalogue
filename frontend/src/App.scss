@@ -1,3 +1,19 @@
 .starter {
-  font-size: 18px;
+  // font-size: 18px;
+}
+
+.star-marker::before,
+.star-marker::after {
+  mask: url('./assets/icons/star-marker.svg');
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+}
+
+.star::before,
+.star::after {
+  mask: url('./assets/icons/star.svg');
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
 }

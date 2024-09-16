@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import filter from '../../assets/icons/filter.svg';
 import search from '../../assets/icons/search.svg';
+import plus from '../../assets/icons/plus.svg';
 
 type Props = {
   text: string;
@@ -27,6 +28,7 @@ export const Button: React.FC<Props> = ({
   const selectedIcon: { [index: string]: string } = {
     filter: `url(${filter})`,
     search: `url(${search})`,
+    plus: `url(${plus})`,
   };
 
   let buttonStyle = '';

@@ -1,15 +1,16 @@
+/* eslint-disable max-len */
 import React from 'react';
 import './App.scss';
-import { HomePage } from './modules/HomePage';
 import { Navbar } from './shared/components/Navbar';
 import { Footer } from './shared/components/Footer';
+import { Outlet } from 'react-router-dom';
 
 export const App: React.FC = () => {
   return (
-    <div className="starter min-h-screen">
+    <div className="starter min-h-screen flex flex-col font-primary text-secondary/100">
       <Navbar />
 
-      <HomePage />
+      <Outlet />
 
       <Footer />
     </div>
