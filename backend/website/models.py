@@ -84,6 +84,8 @@ class CoffeeShop(models.Model):
             MaxValueValidator(3)
         ],)
     is_network = models.BooleanField()
+    email = models.EmailField()
+    website = models.URLField()
     work_time = models.OneToOneField(WorkTime, on_delete=models.CASCADE)
     tags = models.ManyToManyField(Tag, related_name='coffee_shops')
     socials = models.OneToOneField(Socials, on_delete=models.CASCADE)
