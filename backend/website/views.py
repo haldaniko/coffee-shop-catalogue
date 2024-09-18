@@ -1,4 +1,4 @@
-from django.db.models import Avg, Q
+from django.db.models import Avg, Q, Count
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiResponse
 from rest_framework import viewsets, generics
@@ -52,6 +52,11 @@ class CoffeeShopViewSet(viewsets.ModelViewSet):
             tags_list = tags.split(',')
             for i in tags_list:
                 queryset = queryset.filter(tags__name__icontains=i)
+
+        queryset = queryset.annotate(
+            average_rating=Avg('review__stars'),
+            evaluations_count=Count('review')
+        )
 
         if min_rating is not None or max_rating is not None:
             min_rating = int(min_rating) if min_rating is not None else None

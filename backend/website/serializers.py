@@ -96,17 +96,33 @@ class CoffeeShopDetailSerializer(serializers.ModelSerializer):
     owner = UserSerializer()
     address = AddressSerializer()
 
+    rating = serializers.SerializerMethodField()
+    evaluations = serializers.SerializerMethodField()
+
     class Meta:
         model = CoffeeShop
         fields = ("name",
-                  "phone",
+                  "rating",
+                  "evaluations",
+                  "owner",
+                  "work_time",
                   "image",
                   "description",
-                  "work_time",
+                  "price_rate",
+                  "is_network",
                   "tags",
+                  "phone",
+                  "email",
+                  "website",
+                  "address",
                   "socials",
-                  "owner",
-                  "address")
+                  )
+
+    def get_rating(self, obj):
+        return getattr(obj, 'average_rating', None)
+
+    def get_evaluations(self, obj):
+        return getattr(obj, 'evaluations_count', 0)
 
 
 class CoffeeShopListSerializer(serializers.ModelSerializer):
