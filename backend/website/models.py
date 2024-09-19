@@ -4,6 +4,7 @@ import uuid
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
+from django.utils import timezone
 from django.utils.text import slugify
 
 
@@ -45,8 +46,9 @@ class Socials(models.Model):
 
 class Address(models.Model):
     postal_code = models.IntegerField(blank=False)
-    street = models.CharField(max_length=72, blank=False,)
-    city = models.CharField(max_length=36, blank=False,)
+    street = models.CharField(max_length=72, blank=False)
+    district = models.CharField(max_length=72, blank=False)
+    city = models.CharField(max_length=36, blank=False)
 
     def __str__(self):
         return f"{self.street}, {self.city}, {self.postal_code}"
@@ -112,6 +114,7 @@ class Comment(models.Model):
 
 
 class Review(models.Model):
+    title = models.CharField(max_length=72, blank=False, null=False)
     text = models.CharField(max_length=512, blank=True, null=True)
     stars = models.IntegerField(
         validators=[
@@ -122,6 +125,15 @@ class Review(models.Model):
     )
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     shop = models.ForeignKey(CoffeeShop, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(default=timezone.now)
+    likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='review_likes', blank=True)
+    dislikes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='review_dislikes', blank=True)
 
     def __str__(self):
         return f"Review by {self.author} for {self.shop}"
+
+    def total_likes(self):
+        return self.likes.count()
+
+    def total_dislikes(self):
+        return self.dislikes.count()
