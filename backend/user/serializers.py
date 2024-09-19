@@ -6,6 +6,15 @@ from django.utils.translation import gettext as _
 from user.models import User
 
 
+class UserDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ("id",
+                  "username",
+                  "photo")
+        read_only_fields = ("username", "photo")
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()

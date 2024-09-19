@@ -33,7 +33,7 @@ pip install -r requirements.txt
 (create .env file like in .env.sample)
 
 python backend\manage.py migrate
-python backend\manage.py loaddata train_station_service_db_data.json
+python backend\manage.py loaddata backend\mock_data.json
 python backend\manage.py createsuperuser
 python backend\manage.py runserver
 

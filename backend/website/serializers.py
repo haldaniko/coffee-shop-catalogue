@@ -11,6 +11,9 @@ from .models import (
     Review, City
 )
 from user.serializers import UserSerializer
+from user.serializers import UserDetailSerializer
+
+from .pagination import ReviewPagination
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -28,7 +31,7 @@ class SocialsSerializer(serializers.ModelSerializer):
 class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
-        fields = ("city", "postal_code", "street")
+        fields = ("city", "postal_code", "district", "street")
 
 
 class WorkTimeSerializer(serializers.ModelSerializer):
@@ -89,6 +92,38 @@ class CoffeeShopSerializer(serializers.ModelSerializer):
         return instance
 
 
+class ReviewSerializer(serializers.ModelSerializer):
+    likes = serializers.SerializerMethodField()
+    dislikes = serializers.SerializerMethodField()
+    user_reaction = serializers.SerializerMethodField()
+
+    author = UserDetailSerializer()
+
+    class Meta:
+        model = Review
+        fields = ['title', 'text', 'stars', 'author', 'created_at', 'likes', 'dislikes', 'author', 'user_reaction']
+
+    def get_likes(self, obj):
+        return obj.total_likes()
+
+    def get_dislikes(self, obj):
+        return obj.total_dislikes()
+
+    def get_user_reaction(self, obj):
+        request = self.context.get('request')
+        if request is None:
+            return 'none'
+
+        user = request.user
+        if user.is_authenticated:
+            if obj.likes.filter(id=user.id).exists():
+                return 'liked'
+            elif obj.dislikes.filter(id=user.id).exists():
+                return 'disliked'
+
+        return 'none'
+
+
 class CoffeeShopDetailSerializer(serializers.ModelSerializer):
     work_time = WorkTimeSerializer()
     tags = TagSerializer(many=True)
@@ -96,17 +131,44 @@ class CoffeeShopDetailSerializer(serializers.ModelSerializer):
     owner = UserSerializer()
     address = AddressSerializer()
 
+    rating = serializers.SerializerMethodField()
+    evaluations = serializers.SerializerMethodField()
+    reviews = serializers.SerializerMethodField()
+
+
     class Meta:
         model = CoffeeShop
         fields = ("name",
-                  "phone",
+                  "rating",
+                  "evaluations",
+                  "owner",
+                  "work_time",
                   "image",
                   "description",
-                  "work_time",
+                  "price_rate",
+                  "is_network",
                   "tags",
+                  "phone",
+                  "email",
+                  "website",
+                  "address",
                   "socials",
-                  "owner",
-                  "address")
+                  "reviews",
+                  )
+
+    def get_rating(self, obj):
+        return getattr(obj, 'average_rating', None)
+
+    def get_evaluations(self, obj):
+        return getattr(obj, 'evaluations_count', 0)
+
+    def get_reviews(self, obj):
+        request = self.context.get('request')
+        reviews = Review.objects.filter(shop=obj).order_by('-id')
+        paginator = ReviewPagination()
+        page = paginator.paginate_queryset(reviews, request)
+        serializer = ReviewSerializer(page, many=True, context=self.context)
+        return paginator.get_paginated_response(serializer.data).data
 
 
 class CoffeeShopListSerializer(serializers.ModelSerializer):
@@ -131,12 +193,6 @@ class CommentDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ("author", "text", "shop")
-
-
-class ReviewSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Review
-        fields = ("text", "stars", "shop")
 
 
 class ReviewDetailSerializer(serializers.ModelSerializer):

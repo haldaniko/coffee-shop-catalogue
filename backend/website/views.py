@@ -1,12 +1,13 @@
-from django.db.models import Avg, Q
+from django.db.models import Avg, Q, Count
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiResponse
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, generics, status
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .models import (
-    CoffeeShop, City
+    CoffeeShop, City, Review
 )
 from .permissions import IsAdminOrReadOnly
 from .serializers import (
@@ -53,6 +54,11 @@ class CoffeeShopViewSet(viewsets.ModelViewSet):
             for i in tags_list:
                 queryset = queryset.filter(tags__name__icontains=i)
 
+        queryset = queryset.annotate(
+            average_rating=Avg('review__stars'),
+            evaluations_count=Count('review')
+        )
+
         if min_rating is not None or max_rating is not None:
             min_rating = int(min_rating) if min_rating is not None else None
             max_rating = int(max_rating) if max_rating is not None else None
@@ -75,6 +81,11 @@ class CoffeeShopViewSet(viewsets.ModelViewSet):
             return CoffeeShopDetailSerializer
 
         return CoffeeShopSerializer
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['request'] = self.request
+        return context
 
     @extend_schema(
         parameters=[
@@ -125,3 +136,29 @@ class IndexCoffeeShopListView(generics.GenericAPIView):
             'popular': popular_shops_serializer.data,
             'recent': recent_shops_serializer.data,
         })
+
+
+class LikeReview(APIView):
+    def post(self, request, pk):
+        review = Review.objects.get(pk=pk)
+        if request.user in review.likes.all():
+            review.likes.remove(request.user)
+        else:
+            review.likes.add(request.user)
+            review.dislikes.remove(request.user)
+        return Response(
+            {'total_likes': review.total_likes(), 'total_dislikes': review.total_dislikes()},
+            status=status.HTTP_200_OK)
+
+
+class DislikeReview(APIView):
+    def post(self, request, pk):
+        review = Review.objects.get(pk=pk)
+        if request.user in review.dislikes.all():
+            review.dislikes.remove(request.user)
+        else:
+            review.dislikes.add(request.user)
+            review.likes.remove(request.user)
+        return Response(
+            {'total_likes': review.total_likes(), 'total_dislikes': review.total_dislikes()},
+            status=status.HTTP_200_OK)

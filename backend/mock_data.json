@@ -175,6 +175,7 @@
     "fields": {
       "postal_code": 94103,
       "street": "123 Mission St",
+      "district": "district",
       "city": "San Francisco"
     }
   },
@@ -184,6 +185,7 @@
     "fields": {
       "postal_code": 94107,
       "street": "456 Howard St",
+      "district": "district",
       "city": "San Francisco"
     }
   },
@@ -193,6 +195,7 @@
     "fields": {
       "postal_code": 94108,
       "street": "789 Market St",
+      "district": "district",
       "city": "San Francisco"
     }
   },
@@ -202,6 +205,7 @@
     "fields": {
       "postal_code": 94110,
       "street": "123 Valencia St",
+      "district": "district",
       "city": "San Francisco"
     }
   },
@@ -211,6 +215,7 @@
     "fields": {
       "postal_code": 94114,
       "street": "456 Castro St",
+      "district": "district",
       "city": "San Francisco"
     }
   },
@@ -340,6 +345,8 @@
       "description": "A great place for coffee and pastries.",
       "price_rate": 1,
       "is_network": "True",
+      "email": "email@example.com",
+      "website": "example.com.ua",
       "work_time": 1,
       "socials": 1,
       "owner": 1,
@@ -361,6 +368,8 @@
       "description": "The famous coffee chain with reliable brews.",
       "price_rate": 1,
       "is_network": "False",
+      "email": "email@example.com",
+      "website": "example.com.ua",
       "work_time": 2,
       "socials": 2,
       "owner": 2,
@@ -382,6 +391,8 @@
       "description": "A classic place to enjoy your coffee.",
       "price_rate": 2,
       "is_network": "True",
+      "email": "email@example.com",
+      "website": "example.com.ua",
       "work_time": 3,
       "socials": 3,
       "owner": 3,
@@ -403,6 +414,8 @@
       "description": "Known for its custom blends.",
       "price_rate": 3,
       "is_network": "False",
+      "email": "email@example.com",
+      "website": "example.com.ua",
       "work_time": 4,
       "socials": 4,
       "owner": 4,
@@ -424,6 +437,8 @@
       "description": "Artisan coffee with a focus on quality.",
       "price_rate": 2,
       "is_network": "False",
+      "email": "email@example.com",
+      "website": "example.com.ua",
       "work_time": 5,
       "socials": 5,
       "owner": null,
@@ -524,6 +539,7 @@
     "model": "website.review",
     "pk": 1,
     "fields": {
+      "title": "Title!",
       "text": "Great coffee but a bit pricey.",
       "stars": 4,
       "author": 2,
@@ -534,16 +550,18 @@
     "model": "website.review",
     "pk": 2,
     "fields": {
+      "title": "Title!",
       "text": "Consistent quality and service.",
       "stars": 5,
       "author": 3,
-      "shop": 2
+      "shop": 1
     }
   },
   {
     "model": "website.review",
     "pk": 3,
     "fields": {
+      "title": "Title!",
       "text": "Not bad, but I've had better.",
       "stars": 3,
       "author": 4,
@@ -554,6 +572,7 @@
     "model": "website.review",
     "pk": 4,
     "fields": {
+      "title": "Title!",
       "text": "Unique blends that I love!",
       "stars": 5,
       "author": 5,
@@ -564,6 +583,7 @@
     "model": "website.review",
     "pk": 5,
     "fields": {
+      "title": "Title!",
       "text": "The ambiance is perfect for meetings.",
       "stars": 4,
       "author": 1,
