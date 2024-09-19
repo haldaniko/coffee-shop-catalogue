@@ -11,6 +11,7 @@ from .models import (
     Review, City
 )
 from user.serializers import UserSerializer
+from user.serializers import UserDetailSerializer
 
 from .pagination import ReviewPagination
 
@@ -30,7 +31,7 @@ class SocialsSerializer(serializers.ModelSerializer):
 class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
-        fields = ("city", "postal_code", "street")
+        fields = ("city", "postal_code", "district", "street")
 
 
 class WorkTimeSerializer(serializers.ModelSerializer):
@@ -92,11 +93,35 @@ class CoffeeShopSerializer(serializers.ModelSerializer):
 
 
 class ReviewSerializer(serializers.ModelSerializer):
-    author = serializers.StringRelatedField()
+    likes = serializers.SerializerMethodField()
+    dislikes = serializers.SerializerMethodField()
+    user_reaction = serializers.SerializerMethodField()
+
+    author = UserDetailSerializer()
 
     class Meta:
         model = Review
-        fields = ['text', 'stars', 'author']
+        fields = ['title', 'text', 'stars', 'author', 'created_at', 'likes', 'dislikes', 'author', 'user_reaction']
+
+    def get_likes(self, obj):
+        return obj.total_likes()
+
+    def get_dislikes(self, obj):
+        return obj.total_dislikes()
+
+    def get_user_reaction(self, obj):
+        request = self.context.get('request')
+        if request is None:
+            return 'none'
+
+        user = request.user
+        if user.is_authenticated:
+            if obj.likes.filter(id=user.id).exists():
+                return 'liked'
+            elif obj.dislikes.filter(id=user.id).exists():
+                return 'disliked'
+
+        return 'none'
 
 
 class CoffeeShopDetailSerializer(serializers.ModelSerializer):
@@ -142,7 +167,8 @@ class CoffeeShopDetailSerializer(serializers.ModelSerializer):
         reviews = Review.objects.filter(shop=obj).order_by('-id')
         paginator = ReviewPagination()
         page = paginator.paginate_queryset(reviews, request)
-        return paginator.get_paginated_response(ReviewSerializer(page, many=True).data).data
+        serializer = ReviewSerializer(page, many=True, context=self.context)
+        return paginator.get_paginated_response(serializer.data).data
 
 
 class CoffeeShopListSerializer(serializers.ModelSerializer):
