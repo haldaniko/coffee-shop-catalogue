@@ -12,6 +12,8 @@ from .models import (
 )
 from user.serializers import UserSerializer
 
+from .pagination import ReviewPagination
+
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
@@ -89,6 +91,14 @@ class CoffeeShopSerializer(serializers.ModelSerializer):
         return instance
 
 
+class ReviewSerializer(serializers.ModelSerializer):
+    author = serializers.StringRelatedField()
+
+    class Meta:
+        model = Review
+        fields = ['text', 'stars', 'author']
+
+
 class CoffeeShopDetailSerializer(serializers.ModelSerializer):
     work_time = WorkTimeSerializer()
     tags = TagSerializer(many=True)
@@ -98,6 +108,8 @@ class CoffeeShopDetailSerializer(serializers.ModelSerializer):
 
     rating = serializers.SerializerMethodField()
     evaluations = serializers.SerializerMethodField()
+    reviews = serializers.SerializerMethodField()
+
 
     class Meta:
         model = CoffeeShop
@@ -116,6 +128,7 @@ class CoffeeShopDetailSerializer(serializers.ModelSerializer):
                   "website",
                   "address",
                   "socials",
+                  "reviews",
                   )
 
     def get_rating(self, obj):
@@ -123,6 +136,13 @@ class CoffeeShopDetailSerializer(serializers.ModelSerializer):
 
     def get_evaluations(self, obj):
         return getattr(obj, 'evaluations_count', 0)
+
+    def get_reviews(self, obj):
+        request = self.context.get('request')
+        reviews = Review.objects.filter(shop=obj).order_by('-id')
+        paginator = ReviewPagination()
+        page = paginator.paginate_queryset(reviews, request)
+        return paginator.get_paginated_response(ReviewSerializer(page, many=True).data).data
 
 
 class CoffeeShopListSerializer(serializers.ModelSerializer):
@@ -147,12 +167,6 @@ class CommentDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ("author", "text", "shop")
-
-
-class ReviewSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Review
-        fields = ("text", "stars", "shop")
 
 
 class ReviewDetailSerializer(serializers.ModelSerializer):
