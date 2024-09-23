@@ -40,6 +40,38 @@ class WorkTimeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ReviewSerializer(serializers.ModelSerializer):
+    likes = serializers.SerializerMethodField()
+    dislikes = serializers.SerializerMethodField()
+    user_reaction = serializers.SerializerMethodField()
+
+    author = UserDetailSerializer()
+
+    class Meta:
+        model = Review
+        fields = ['title', 'text', 'stars', 'author', 'created_at', 'likes', 'dislikes', 'author', 'user_reaction']
+
+    def get_likes(self, obj):
+        return obj.total_likes()
+
+    def get_dislikes(self, obj):
+        return obj.total_dislikes()
+
+    def get_user_reaction(self, obj):
+        request = self.context.get('request')
+        if request is None:
+            return 'none'
+
+        user = request.user
+        if user.is_authenticated:
+            if obj.likes.filter(id=user.id).exists():
+                return 'liked'
+            elif obj.dislikes.filter(id=user.id).exists():
+                return 'disliked'
+
+        return 'none'
+
+
 class CoffeeShopSerializer(serializers.ModelSerializer):
     address = AddressSerializer()
 
@@ -92,38 +124,6 @@ class CoffeeShopSerializer(serializers.ModelSerializer):
         return instance
 
 
-class ReviewSerializer(serializers.ModelSerializer):
-    likes = serializers.SerializerMethodField()
-    dislikes = serializers.SerializerMethodField()
-    user_reaction = serializers.SerializerMethodField()
-
-    author = UserDetailSerializer()
-
-    class Meta:
-        model = Review
-        fields = ['title', 'text', 'stars', 'author', 'created_at', 'likes', 'dislikes', 'author', 'user_reaction']
-
-    def get_likes(self, obj):
-        return obj.total_likes()
-
-    def get_dislikes(self, obj):
-        return obj.total_dislikes()
-
-    def get_user_reaction(self, obj):
-        request = self.context.get('request')
-        if request is None:
-            return 'none'
-
-        user = request.user
-        if user.is_authenticated:
-            if obj.likes.filter(id=user.id).exists():
-                return 'liked'
-            elif obj.dislikes.filter(id=user.id).exists():
-                return 'disliked'
-
-        return 'none'
-
-
 class CoffeeShopDetailSerializer(serializers.ModelSerializer):
     work_time = WorkTimeSerializer()
     tags = TagSerializer(many=True)
@@ -135,26 +135,27 @@ class CoffeeShopDetailSerializer(serializers.ModelSerializer):
     evaluations = serializers.SerializerMethodField()
     reviews = serializers.SerializerMethodField()
 
-
     class Meta:
         model = CoffeeShop
-        fields = ("name",
-                  "rating",
-                  "evaluations",
-                  "owner",
-                  "work_time",
-                  "image",
-                  "description",
-                  "price_rate",
-                  "is_network",
-                  "tags",
-                  "phone",
-                  "email",
-                  "website",
-                  "address",
-                  "socials",
-                  "reviews",
-                  )
+        fields = (
+            "id",
+            "name",
+            "rating",
+            "evaluations",
+            "owner",
+            "work_time",
+            "image",
+            "description",
+            "price_rate",
+            "is_network",
+            "tags",
+            "phone",
+            "email",
+            "website",
+            "address",
+            "socials",
+            "reviews",
+        )
 
     def get_rating(self, obj):
         return getattr(obj, 'average_rating', None)
@@ -172,9 +173,50 @@ class CoffeeShopDetailSerializer(serializers.ModelSerializer):
 
 
 class CoffeeShopListSerializer(serializers.ModelSerializer):
+    work_time = WorkTimeSerializer()
+    tags = TagSerializer(many=True)
+    owner = UserSerializer()
+    address = AddressSerializer()
+
+    rating = serializers.SerializerMethodField()
+    evaluations = serializers.SerializerMethodField()
+    total_reviews = serializers.SerializerMethodField()
+    favorite = serializers.SerializerMethodField()
+
     class Meta:
         model = CoffeeShop
-        fields = ("name", "phone", "image", "description", "address")
+        fields = (
+            "id",
+            "favorite",
+            "image",
+            "name",
+            "rating",
+            "evaluations",
+            "address",
+            "price_rate",
+            "owner",
+            "work_time",
+            "is_network",
+            "tags",
+            "total_reviews",
+        )
+
+    def get_rating(self, obj):
+        return getattr(obj, 'average_rating', None)
+
+    def get_evaluations(self, obj):
+        return getattr(obj, 'evaluations_count', 0)
+
+    def get_total_reviews(self, obj):
+        reviews = Review.objects.filter(shop=obj).count()
+        return reviews
+
+    def get_favorite(self, obj):
+        request = self.context.get('request')
+        if request is None or not request.user.is_authenticated:
+            return False
+        user = request.user
+        return user.favorite_shops.filter(id=obj.id).exists()
 
 
 class GalleryImageSerializer(serializers.ModelSerializer):
