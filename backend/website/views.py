@@ -14,7 +14,7 @@ from .serializers import (
     CoffeeShopSerializer,
     CoffeeShopDetailSerializer,
     CityStatsSerializer,
-    IndexCoffeeShopSerializer,
+    IndexCoffeeShopSerializer, CoffeeShopListSerializer,
 )
 
 
@@ -75,7 +75,7 @@ class CoffeeShopViewSet(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         if self.action == "list":
-            return CoffeeShopSerializer
+            return CoffeeShopListSerializer
 
         if self.action == "retrieve":
             return CoffeeShopDetailSerializer
