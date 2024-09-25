@@ -35,8 +35,10 @@ class CoffeeShopViewSet(viewsets.ModelViewSet):
         city = self.request.query_params.get("city")
         name = self.request.query_params.get("name")
         address = self.request.query_params.get("address")
+        district = self.request.query_params.get("district")
         with_owner = self.request.query_params.get("with_owner")
         tags = self.request.query_params.get("tags")
+        is_network = self.request.query_params.get("is_network")
         min_rating = self.request.query_params.get("min_rating")
         max_rating = self.request.query_params.get("max_rating")
 
@@ -46,9 +48,16 @@ class CoffeeShopViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(name__icontains=name)
         if address:
             queryset = queryset.filter(address__street__icontains=address)
+        if district:
+            queryset = queryset.filter(address__district__icontains=district)
+
+        if is_network is not None:
+            is_network_bool = is_network.lower() == 'true'
+            queryset = queryset.filter(is_network=is_network_bool)
         if with_owner is not None:
             has_owner = with_owner.lower() == "true"
             queryset = queryset.filter(owner__isnull=not has_owner)
+
         if tags:
             tags_list = tags.split(',')
             for i in tags_list:
@@ -89,31 +98,53 @@ class CoffeeShopViewSet(viewsets.ModelViewSet):
 
     @extend_schema(
         parameters=[
-            OpenApiParameter(name='city', type=OpenApiTypes.STR, location=OpenApiParameter.QUERY,
-                             description='Filter by city name'),
-            OpenApiParameter(name='name', type=OpenApiTypes.STR, location=OpenApiParameter.QUERY,
-                             description='Filter by coffee shop name'),
-            OpenApiParameter(name='address', type=OpenApiTypes.STR, location=OpenApiParameter.QUERY,
-                             description='Filter by street address'),
-            OpenApiParameter(name='with_owner', type=OpenApiTypes.BOOL, location=OpenApiParameter.QUERY,
-                             description='Filter by presence of an owner (true or false)'),
-            OpenApiParameter(name='tags', type=OpenApiTypes.STR, location=OpenApiParameter.QUERY,
-                             description='Filter by tags (comma-separated list)'),
-            OpenApiParameter(name='min_rating', type=OpenApiTypes.INT, location=OpenApiParameter.QUERY,
-                             description='Filter by minimum rating'),
-            OpenApiParameter(name='max_rating', type=OpenApiTypes.INT, location=OpenApiParameter.QUERY,
-                             description='Filter by maximum rating')
+            OpenApiParameter(
+                name='city', type=OpenApiTypes.STR, location=OpenApiParameter.QUERY,
+                description='Filter coffee shops by city name. Case-insensitive match.'
+            ),
+            OpenApiParameter(
+                name='name', type=OpenApiTypes.STR, location=OpenApiParameter.QUERY,
+                description='Filter coffee shops by name. Case-insensitive match.'
+            ),
+            OpenApiParameter(
+                name='address', type=OpenApiTypes.STR, location=OpenApiParameter.QUERY,
+                description='Filter coffee shops by street address. Case-insensitive match.'
+            ),
+            OpenApiParameter(
+                name='district', type=OpenApiTypes.STR, location=OpenApiParameter.QUERY,
+                description='Filter coffee shops by district. Case-insensitive match.'
+            ),
+            OpenApiParameter(
+                name='with_owner', type=OpenApiTypes.BOOL, location=OpenApiParameter.QUERY,
+                description='Filter by whether the coffee shop has an owner (true or false).'
+            ),
+            OpenApiParameter(
+                name='tags', type=OpenApiTypes.STR, location=OpenApiParameter.QUERY,
+                description='Filter by tags. Provide a comma-separated list of tags.'
+            ),
+            OpenApiParameter(
+                name='type', type=OpenApiTypes.STR, location=OpenApiParameter.QUERY,
+                description='Filter by type of coffee shop.'
+            ),
+            OpenApiParameter(
+                name='min_rating', type=OpenApiTypes.INT, location=OpenApiParameter.QUERY,
+                description='Filter by minimum average rating (integer value).'
+            ),
+            OpenApiParameter(
+                name='max_rating', type=OpenApiTypes.INT, location=OpenApiParameter.QUERY,
+                description='Filter by maximum average rating (integer value).'
+            )
         ],
         responses={
             200: OpenApiResponse(
                 description='A list of coffee shops matching the query parameters',
-                response=CoffeeShopSerializer
-            )
+                response=CoffeeShopListSerializer
+            ),
         },
         description=(
-                "Retrieve a list of coffee shops with optional filtering by city, name, address, "
-                "owner presence, tags, and ratings. The response includes details such as average rating "
-                "and the list of coffee shops matching the given criteria."
+            "Retrieve a list of coffee shops with optional filters. You can filter by city, name, address, "
+            "district, type, owner presence, tags, and rating. Results include additional data such as average rating "
+            "and total number of evaluations."
         ),
         tags=['Coffee Shops']
     )
@@ -123,7 +154,6 @@ class CoffeeShopViewSet(viewsets.ModelViewSet):
 
 class IndexCoffeeShopListView(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
-
         popular_shops = CoffeeShop.objects.annotate(
             average_rating=Avg("review__stars")
         ).order_by("-average_rating")[:6]
