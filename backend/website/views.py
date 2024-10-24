@@ -1,4 +1,5 @@
 from django.db.models import Avg, Q, Count
+from django.utils.timezone import now
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiResponse
 from rest_framework import viewsets, generics, status
@@ -32,6 +33,7 @@ class CoffeeShopViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = super().get_queryset()
 
+        # Query parameters from the request
         city = self.request.query_params.get("city")
         name = self.request.query_params.get("name")
         address = self.request.query_params.get("address")
@@ -41,44 +43,75 @@ class CoffeeShopViewSet(viewsets.ModelViewSet):
         is_network = self.request.query_params.get("is_network")
         min_rating = self.request.query_params.get("min_rating")
         max_rating = self.request.query_params.get("max_rating")
+        pricing_rate = self.request.query_params.get("pricing_rate")
+        hours_from = self.request.query_params.get("hours_from")
+        hours_to = self.request.query_params.get("hours_to")
 
+        # Filtering by city
         if city:
             queryset = queryset.filter(address__city__icontains=city)
+
+        # Filtering by name
         if name:
             queryset = queryset.filter(name__icontains=name)
+
+        # Filtering by address
         if address:
             queryset = queryset.filter(address__street__icontains=address)
+
+        # Filtering by district
         if district:
             queryset = queryset.filter(address__district__icontains=district)
 
+        # Filtering by whether the shop belongs to a network
         if is_network is not None:
             is_network_bool = is_network.lower() == 'true'
             queryset = queryset.filter(is_network=is_network_bool)
+
+        # Filtering by owner presence
         if with_owner is not None:
             has_owner = with_owner.lower() == "true"
             queryset = queryset.filter(owner__isnull=not has_owner)
 
+        # Filtering by tags (ManyToMany relation)
         if tags:
             tags_list = tags.split(',')
-            for i in tags_list:
-                queryset = queryset.filter(tags__name__icontains=i)
+            for tag in tags_list:
+                queryset = queryset.filter(tags__name__icontains=tag)
 
+        # Filtering by pricing policy (1, 2, 3)
+        if pricing_rate:
+            pricing_rate_list = pricing_rate.split(',')
+            queryset = queryset.filter(price_rate__in=pricing_rate_list)
+
+        # Annotate the queryset with average rating and review count
         queryset = queryset.annotate(
             average_rating=Avg('review__stars'),
             evaluations_count=Count('review')
         )
 
+        # Filtering by rating
         if min_rating is not None or max_rating is not None:
-            min_rating = int(min_rating) if min_rating is not None else None
-            max_rating = int(max_rating) if max_rating is not None else None
+            queryset = queryset.annotate(average_rating=Avg('review__stars'))
+
             rating_filter = Q()
             if min_rating is not None:
-                rating_filter &= Q(review__stars__gte=min_rating)
+                rating_filter &= Q(average_rating__gte=int(min_rating))
             if max_rating is not None:
-                rating_filter &= Q(review__stars__lte=max_rating)
-            queryset = queryset.annotate(
-                average_rating=Avg('review__stars')
-            ).filter(rating_filter)
+                rating_filter &= Q(average_rating__lte=int(max_rating))
+
+            queryset = queryset.filter(rating_filter)
+
+        # Filtering by current day's working hours
+        if hours_from is not None or hours_to is not None:
+            current_day = now().strftime('%a').lower()[:3]
+            filters = Q()
+            if hours_from is not None:
+                filters &= Q(**{f"work_time__{current_day}_open__lte": hours_from})
+            if hours_to is not None:
+                filters &= Q(**{f"work_time__{current_day}_close__gte": hours_to})
+
+            queryset = queryset.filter(filters)
 
         return queryset
 
@@ -100,53 +133,67 @@ class CoffeeShopViewSet(viewsets.ModelViewSet):
         parameters=[
             OpenApiParameter(
                 name='city', type=OpenApiTypes.STR, location=OpenApiParameter.QUERY,
-                description='Filter coffee shops by city name. Case-insensitive match.'
+                description='Фільтрація за назвою міста.'
             ),
             OpenApiParameter(
                 name='name', type=OpenApiTypes.STR, location=OpenApiParameter.QUERY,
-                description='Filter coffee shops by name. Case-insensitive match.'
+                description='Фільтрація за назвою кав\'ярні.'
             ),
             OpenApiParameter(
                 name='address', type=OpenApiTypes.STR, location=OpenApiParameter.QUERY,
-                description='Filter coffee shops by street address. Case-insensitive match.'
+                description='Фільтрація за вулицею (адресою).'
             ),
             OpenApiParameter(
                 name='district', type=OpenApiTypes.STR, location=OpenApiParameter.QUERY,
-                description='Filter coffee shops by district. Case-insensitive match.'
+                description='Фільтрація за районом.'
             ),
             OpenApiParameter(
                 name='with_owner', type=OpenApiTypes.BOOL, location=OpenApiParameter.QUERY,
-                description='Filter by whether the coffee shop has an owner (true or false).'
+                description='Фільтрація за наявністю власника (true або false).'
             ),
             OpenApiParameter(
                 name='tags', type=OpenApiTypes.STR, location=OpenApiParameter.QUERY,
-                description='Filter by tags. Provide a comma-separated list of tags.'
+                description='Фільтрація за тегами (надається список тегів, розділений комами).'
             ),
             OpenApiParameter(
-                name='type', type=OpenApiTypes.STR, location=OpenApiParameter.QUERY,
-                description='Filter by type of coffee shop.'
+                name='is_network', type=OpenApiTypes.BOOL, location=OpenApiParameter.QUERY,
+                description='Фільтрація за належністю до мережі (true або false).'
+            ),
+            OpenApiParameter(
+                name='pricing_rate', type=OpenApiTypes.INT, location=OpenApiParameter.QUERY,
+                description='Фільтрація за ціновою політикою (1, 2, 3).'
             ),
             OpenApiParameter(
                 name='min_rating', type=OpenApiTypes.INT, location=OpenApiParameter.QUERY,
-                description='Filter by minimum average rating (integer value).'
+                description='Фільтрація за мінімальним середнім рейтингом.'
             ),
             OpenApiParameter(
                 name='max_rating', type=OpenApiTypes.INT, location=OpenApiParameter.QUERY,
-                description='Filter by maximum average rating (integer value).'
+                description='Фільтрація за максимальним середнім рейтингом.'
+            ),
+            OpenApiParameter(
+                name='hours_from', type=OpenApiTypes.STR, location=OpenApiParameter.QUERY,
+                description='Фільтр за годинами роботи. Вкажіть час, з(!) '
+                            'якого кав\'ярня має бути відкритою (формат: HH:MM).'
+            ),
+            OpenApiParameter(
+                name='hours_to', type=OpenApiTypes.STR, location=OpenApiParameter.QUERY,
+                description='Фільтр за годинами роботи. Вкажіть час, до(!) '
+                            'якого кав\'ярня має бути відкритою (формат: HH:MM).'
             )
         ],
         responses={
             200: OpenApiResponse(
-                description='A list of coffee shops matching the query parameters',
+                description="Список кав'ярень, що відповідають параметрам запиту",
                 response=CoffeeShopListSerializer
             ),
         },
         description=(
-            "Retrieve a list of coffee shops with optional filters. You can filter by city, name, address, "
-            "district, type, owner presence, tags, and rating. Results include additional data such as average rating "
-            "and total number of evaluations."
+                "Отримати список кав'ярень з необов'язковими фільтрами. Ви можете фільтрувати за містом, "
+                "назвою, адресою, районом, типом, наявністю власника, тегами та рейтингом. Результати "
+                "включають додаткові дані, такі як середній рейтинг та загальна кількість оцінок."
         ),
-        tags=['Coffee Shops']
+        tags=["Кав'ярні"]
     )
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
