@@ -88,15 +88,15 @@
     "model": "website.tag",
     "pk": 1,
     "fields": {
-      "name": "Wi-Fi",
-      "type": "convenience"
+      "name": "Books",
+      "type": "activity"
     }
   },
   {
     "model": "website.tag",
     "pk": 2,
     "fields": {
-      "name": "Vegan Options",
+      "name": "Board games",
       "type": "activity"
     }
   },
@@ -104,15 +104,23 @@
     "model": "website.tag",
     "pk": 3,
     "fields": {
-      "name": "Pet Friendly",
-      "type": "convenience"
+      "name": "Live music",
+      "type": "activity"
     }
   },
   {
     "model": "website.tag",
     "pk": 4,
     "fields": {
-      "name": "Outdoor Seating",
+      "name": "Pets",
+      "type": "activity"
+    }
+  },
+  {
+    "model": "website.tag",
+    "pk": 5,
+    "fields": {
+      "name": "WiFi",
       "type": "convenience"
     }
   },
@@ -120,8 +128,40 @@
     "model": "website.tag",
     "pk": 5,
     "fields": {
-      "name": "Live Music",
-      "type": "activity"
+      "name": "Restroom",
+      "type": "convenience"
+    }
+  },
+  {
+    "model": "website.tag",
+    "pk": 5,
+    "fields": {
+      "name": "Delivery",
+      "type": "convenience"
+    }
+  },
+  {
+    "model": "website.tag",
+    "pk": 5,
+    "fields": {
+      "name": "Booking",
+      "type": "convenience"
+    }
+  },
+  {
+    "model": "website.tag",
+    "pk": 5,
+    "fields": {
+      "name": "Parking",
+      "type": "convenience"
+    }
+  },
+  {
+    "model": "website.tag",
+    "pk": 5,
+    "fields": {
+      "name": "Terrace",
+      "type": "convenience"
     }
   },
   {
@@ -170,53 +210,72 @@
     }
   },
   {
+    "model": "website.socials",
+    "pk": 6,
+    "fields": {
+      "instagram": "https://instagram.com/1",
+      "facebook": "https://facebook.com/2",
+      "twitter": "https://twitter.com/3"
+    }
+  },
+  {
     "model": "website.address",
     "pk": 1,
     "fields": {
-      "postal_code": 94103,
-      "street": "123 Mission St",
-      "district": "district",
-      "city": "San Francisco"
+      "postal_code": "01001",
+      "street": "Khreshchatyk St, 10",
+      "district": "Shevchenkivskyi",
+      "city": "Kyiv"
     }
   },
   {
     "model": "website.address",
     "pk": 2,
     "fields": {
-      "postal_code": 94107,
-      "street": "456 Howard St",
-      "district": "district",
-      "city": "San Francisco"
+      "postal_code": "01601",
+      "street": "Bohdan Khmelnytsky St, 6",
+      "district": "Lypky",
+      "city": "Kyiv"
     }
   },
   {
     "model": "website.address",
     "pk": 3,
     "fields": {
-      "postal_code": 94108,
-      "street": "789 Market St",
-      "district": "district",
-      "city": "San Francisco"
+      "postal_code": "02000",
+      "street": "Velyka Vasylkivska St, 14",
+      "district": "Holosiivskyi",
+      "city": "Kyiv"
     }
   },
   {
     "model": "website.address",
     "pk": 4,
     "fields": {
-      "postal_code": 94110,
-      "street": "123 Valencia St",
-      "district": "district",
-      "city": "San Francisco"
+      "postal_code": "02200",
+      "street": "Kostyantynivska St, 4",
+      "district": "Podilskyi",
+      "city": "Kyiv"
     }
   },
   {
     "model": "website.address",
     "pk": 5,
     "fields": {
-      "postal_code": 94114,
-      "street": "456 Castro St",
-      "district": "district",
-      "city": "San Francisco"
+      "postal_code": "03000",
+      "street": "Yevhenivska St, 20",
+      "district": "Sviatoshynskyi",
+      "city": "Kyiv"
+    }
+  },
+  {
+    "model": "website.address",
+    "pk": 6,
+    "fields": {
+      "postal_code": "01101",
+      "street": "Velyka Zhytomyrska St, 5",
+      "district": "Pecherskyi",
+      "city": "Kyiv"
     }
   },
   {
@@ -320,6 +379,26 @@
     }
   },
   {
+    "model": "website.worktime",
+    "pk": 6,
+    "fields": {
+      "mon_open": "09:00:00",
+      "mon_close": "18:00:00",
+      "tue_open": "09:00:00",
+      "tue_close": "18:00:00",
+      "wed_open": "09:00:00",
+      "wed_close": "18:00:00",
+      "thu_open": "09:00:00",
+      "thu_close": "18:00:00",
+      "fri_open": "09:00:00",
+      "fri_close": "18:00:00",
+      "sat_open": "10:00:00",
+      "sat_close": "16:00:00",
+      "sun_open": "10:00:00",
+      "sun_close": "15:00:00"
+    }
+  },
+  {
     "model": "website.city",
     "pk": 1,
     "fields": {
@@ -339,14 +418,14 @@
     "model": "website.coffeeshop",
     "pk": 1,
     "fields": {
-      "name": "Blue Bottle Coffee",
-      "phone": "415-555-1234",
-      "image": "",
-      "description": "A great place for coffee and pastries.",
+      "name": "Coffee in Action",
+      "phone": "+380 44 123 4567",
+      "image": "/media/gallery/mock/0.jpg",
+      "description": "Cozy spot for coffee lovers.",
       "price_rate": 1,
-      "is_network": "True",
-      "email": "email@example.com",
-      "website": "example.com.ua",
+      "is_network": false,
+      "email": "info@coffeeinaction.com",
+      "website": "coffeeinaction.com",
       "work_time": 1,
       "socials": 1,
       "owner": 1,
@@ -362,21 +441,21 @@
     "model": "website.coffeeshop",
     "pk": 2,
     "fields": {
-      "name": "Starbucks",
-      "phone": "415-555-5678",
-      "image": "",
-      "description": "The famous coffee chain with reliable brews.",
-      "price_rate": 1,
-      "is_network": "False",
-      "email": "email@example.com",
-      "website": "example.com.ua",
+      "name": "One Love Coffee",
+      "phone": "+380 44 765 4321",
+      "image": "/media/gallery/mock/0.jpg",
+      "description": "Specialty coffee brewed with care.",
+      "price_rate": 2,
+      "is_network": false,
+      "email": "contact@onelovecoffee.com",
+      "website": "onelovecoffee.com",
       "work_time": 2,
       "socials": 2,
       "owner": 2,
       "address": 2,
       "city": 1,
       "tags": [
-        1,
+        2,
         3
       ]
     }
@@ -385,21 +464,21 @@
     "model": "website.coffeeshop",
     "pk": 3,
     "fields": {
-      "name": "Peet's Coffee",
-      "phone": "415-555-9876",
-      "image": "",
-      "description": "A classic place to enjoy your coffee.",
-      "price_rate": 2,
-      "is_network": "True",
-      "email": "email@example.com",
-      "website": "example.com.ua",
+      "name": "Svit Kavy",
+      "phone": "+380 44 234 5678",
+      "image": "/media/gallery/mock/0.jpg",
+      "description": "A place for coffee enthusiasts.",
+      "price_rate": 1,
+      "is_network": true,
+      "email": "info@svitkavy.com",
+      "website": "svitkavy.com",
       "work_time": 3,
       "socials": 3,
       "owner": 3,
       "address": 3,
       "city": 1,
       "tags": [
-        2,
+        1,
         4
       ]
     }
@@ -408,21 +487,21 @@
     "model": "website.coffeeshop",
     "pk": 4,
     "fields": {
-      "name": "Philz Coffee",
-      "phone": "415-555-6543",
-      "image": "",
-      "description": "Known for its custom blends.",
-      "price_rate": 3,
-      "is_network": "False",
-      "email": "email@example.com",
-      "website": "example.com.ua",
+      "name": "Café de Flore",
+      "phone": "+380 44 345 6789",
+      "image": "/media/gallery/mock/0.jpg",
+      "description": "Charming café with a great atmosphere.",
+      "price_rate": 2,
+      "is_network": false,
+      "email": "info@cafedeflore.com",
+      "website": "cafedeflore.com",
       "work_time": 4,
       "socials": 4,
       "owner": 4,
       "address": 4,
-      "city": 2,
+      "city": 1,
       "tags": [
-        1,
+        2,
         5
       ]
     }
@@ -431,22 +510,46 @@
     "model": "website.coffeeshop",
     "pk": 5,
     "fields": {
-      "name": "Verve Coffee",
-      "phone": "415-555-3210",
-      "image": "",
-      "description": "Artisan coffee with a focus on quality.",
-      "price_rate": 2,
-      "is_network": "False",
-      "email": "email@example.com",
-      "website": "example.com.ua",
+      "name": "Pasta & Coffee",
+      "phone": "+380 44 456 7890",
+      "image": "/media/gallery/mock/0.jpg",
+      "description": "A perfect place for coffee and pasta.",
+      "price_rate": 3,
+      "is_network": true,
+      "email": "info@pastacoffee.com",
+      "website": "pastacoffee.com",
       "work_time": 5,
       "socials": 5,
-      "owner": null,
+      "owner": 5,
       "address": 5,
-      "city": 2,
+      "city": 1,
       "tags": [
-        3,
-        4
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  {
+    "model": "website.coffeeshop",
+    "pk": 6,
+    "fields": {
+      "name": "Green Coffee",
+      "phone": "+380 44 567 8901",
+      "image": "/media/gallery/mock/0.jpg",
+      "description": "Freshly brewed coffee with organic beans.",
+      "price_rate": 2,
+      "is_network": false,
+      "email": "info@greencoffee.com",
+      "website": "greencoffee.com",
+      "work_time": 6,
+      "socials": 6,
+      "owner": 6,
+      "address": 6,
+      "city": 1,
+      "tags": [
+        1,
+        3
       ]
     }
   },
@@ -454,7 +557,7 @@
     "model": "website.galleryimage",
     "pk": 1,
     "fields": {
-      "image": "",
+      "image": "/media/gallery/mock/1.jpg",
       "coffee_shop": 1
     }
   },
@@ -462,32 +565,232 @@
     "model": "website.galleryimage",
     "pk": 2,
     "fields": {
-      "image": "",
-      "coffee_shop": 2
+      "image": "/media/gallery/mock/2.jpg",
+      "coffee_shop": 1
     }
   },
   {
     "model": "website.galleryimage",
     "pk": 3,
     "fields": {
-      "image": "",
-      "coffee_shop": 3
+      "image": "/media/gallery/mock/3.jpg",
+      "coffee_shop": 1
     }
   },
   {
     "model": "website.galleryimage",
     "pk": 4,
     "fields": {
-      "image": "",
-      "coffee_shop": 4
+      "image": "/media/gallery/mock/4.jpg",
+      "coffee_shop": 1
     }
   },
   {
     "model": "website.galleryimage",
     "pk": 5,
     "fields": {
-      "image": "",
+      "image": "/media/gallery/mock/5.jpg",
+      "coffee_shop": 1
+    }
+  },
+  {
+    "model": "website.galleryimage",
+    "pk": 6,
+    "fields": {
+      "image": "/media/gallery/mock/1.jpg",
+      "coffee_shop": 2
+    }
+  },
+  {
+    "model": "website.galleryimage",
+    "pk": 7,
+    "fields": {
+      "image": "/media/gallery/mock/2.jpg",
+      "coffee_shop": 2
+    }
+  },
+  {
+    "model": "website.galleryimage",
+    "pk": 8,
+    "fields": {
+      "image": "/media/gallery/mock/3.jpg",
+      "coffee_shop": 2
+    }
+  },
+  {
+    "model": "website.galleryimage",
+    "pk": 9,
+    "fields": {
+      "image": "/media/gallery/mock/4.jpg",
+      "coffee_shop": 2
+    }
+  },
+  {
+    "model": "website.galleryimage",
+    "pk": 10,
+    "fields": {
+      "image": "/media/gallery/mock/5.jpg",
+      "coffee_shop": 2
+    }
+  },
+  {
+    "model": "website.galleryimage",
+    "pk": 11,
+    "fields": {
+      "image": "/media/gallery/mock/1.jpg",
+      "coffee_shop": 3
+    }
+  },
+  {
+    "model": "website.galleryimage",
+    "pk": 12,
+    "fields": {
+      "image": "/media/gallery/mock/2.jpg",
+      "coffee_shop": 3
+    }
+  },
+  {
+    "model": "website.galleryimage",
+    "pk": 13,
+    "fields": {
+      "image": "/media/gallery/mock/3.jpg",
+      "coffee_shop": 3
+    }
+  },
+  {
+    "model": "website.galleryimage",
+    "pk": 14,
+    "fields": {
+      "image": "/media/gallery/mock/4.jpg",
+      "coffee_shop": 3
+    }
+  },
+  {
+    "model": "website.galleryimage",
+    "pk": 15,
+    "fields": {
+      "image": "/media/gallery/mock/5.jpg",
+      "coffee_shop": 3
+    }
+  },
+  {
+    "model": "website.galleryimage",
+    "pk": 16,
+    "fields": {
+      "image": "/media/gallery/mock/1.jpg",
+      "coffee_shop": 4
+    }
+  },
+  {
+    "model": "website.galleryimage",
+    "pk": 17,
+    "fields": {
+      "image": "/media/gallery/mock/2.jpg",
+      "coffee_shop": 4
+    }
+  },
+  {
+    "model": "website.galleryimage",
+    "pk": 18,
+    "fields": {
+      "image": "/media/gallery/mock/3.jpg",
+      "coffee_shop": 4
+    }
+  },
+  {
+    "model": "website.galleryimage",
+    "pk": 19,
+    "fields": {
+      "image": "/media/gallery/mock/4.jpg",
+      "coffee_shop": 4
+    }
+  },
+  {
+    "model": "website.galleryimage",
+    "pk": 20,
+    "fields": {
+      "image": "/media/gallery/mock/5.jpg",
+      "coffee_shop": 4
+    }
+  },
+  {
+    "model": "website.galleryimage",
+    "pk": 21,
+    "fields": {
+      "image": "/media/gallery/mock/1.jpg",
       "coffee_shop": 5
+    }
+  },
+  {
+    "model": "website.galleryimage",
+    "pk": 22,
+    "fields": {
+      "image": "/media/gallery/mock/2.jpg",
+      "coffee_shop": 5
+    }
+  },
+  {
+    "model": "website.galleryimage",
+    "pk": 23,
+    "fields": {
+      "image": "/media/gallery/mock/3.jpg",
+      "coffee_shop": 5
+    }
+  },
+  {
+    "model": "website.galleryimage",
+    "pk": 24,
+    "fields": {
+      "image": "/media/gallery/mock/4.jpg",
+      "coffee_shop": 5
+    }
+  },
+  {
+    "model": "website.galleryimage",
+    "pk": 25,
+    "fields": {
+      "image": "/media/gallery/mock/5.jpg",
+      "coffee_shop": 5
+    }
+  },
+  {
+    "model": "website.galleryimage",
+    "pk": 26,
+    "fields": {
+      "image": "/media/gallery/mock/1.jpg",
+      "coffee_shop": 6
+    }
+  },
+  {
+    "model": "website.galleryimage",
+    "pk": 27,
+    "fields": {
+      "image": "/media/gallery/mock/2.jpg",
+      "coffee_shop": 6
+    }
+  },
+  {
+    "model": "website.galleryimage",
+    "pk": 28,
+    "fields": {
+      "image": "/media/gallery/mock/3.jpg",
+      "coffee_shop": 6
+    }
+  },
+  {
+    "model": "website.galleryimage",
+    "pk": 29,
+    "fields": {
+      "image": "/media/gallery/mock/4.jpg",
+      "coffee_shop": 6
+    }
+  },
+  {
+    "model": "website.galleryimage",
+    "pk": 30,
+    "fields": {
+      "image": "/media/gallery/mock/5.jpg",
+      "coffee_shop": 6
     }
   },
   {
