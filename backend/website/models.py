@@ -12,14 +12,14 @@ def image_file_path(instance, filename):
     _, extension = os.path.splitext(filename)
     filename = f"{slugify(instance.name)}-{uuid.uuid4()}{extension}"
 
-    return os.path.join(f"uploads/images/", filename)
+    return os.path.join(f"media/images/", filename)
 
 
 def gallerry_image_file_path(instance, filename):
     ext = filename.split('.')[-1]
     filename = f'{uuid.uuid4()}.{ext}'
     coffee_shop_name = instance.coffee_shop.name
-    return os.path.join('uploads', 'gallery', coffee_shop_name, filename)
+    return os.path.join('media', 'gallery', coffee_shop_name, filename)
 
 
 class Tag(models.Model):
