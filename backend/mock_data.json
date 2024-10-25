@@ -85,6 +85,23 @@
     }
   },
   {
+    "model": "user.user",
+    "pk": 6,
+    "fields": {
+      "username": "alice_wongg",
+      "first_name": "Alice",
+      "last_name": "Wong",
+      "email": "alice.wong@example.com",
+      "is_staff": true,
+      "is_active": true,
+      "is_superuser": false,
+      "password": "pbkdf2_sha256$260000$...",
+      "date_joined": "2023-08-01T00:00:00Z",
+      "photo": "",
+      "is_owner": true
+    }
+  },
+  {
     "model": "website.tag",
     "pk": 1,
     "fields": {
