@@ -173,9 +173,8 @@ class CoffeeShopDetailSerializer(serializers.ModelSerializer):
 
 
 class CoffeeShopListSerializer(serializers.ModelSerializer):
-    owner = UserSerializer()
     address = AddressSerializer()
-
+    owner = serializers.SerializerMethodField()
     rating = serializers.SerializerMethodField()
     total_reviews = serializers.SerializerMethodField()
     favorite = serializers.SerializerMethodField()
@@ -211,6 +210,10 @@ class CoffeeShopListSerializer(serializers.ModelSerializer):
             return False
         user = request.user
         return user.favorite_shops.filter(id=obj.id).exists()
+
+    def get_owner(self, obj):
+        return obj.owner is not None
+
 
 
 class GalleryImageSerializer(serializers.ModelSerializer):
