@@ -173,13 +173,10 @@ class CoffeeShopDetailSerializer(serializers.ModelSerializer):
 
 
 class CoffeeShopListSerializer(serializers.ModelSerializer):
-    work_time = WorkTimeSerializer()
-    tags = TagSerializer(many=True)
     owner = UserSerializer()
     address = AddressSerializer()
 
     rating = serializers.SerializerMethodField()
-    evaluations = serializers.SerializerMethodField()
     total_reviews = serializers.SerializerMethodField()
     favorite = serializers.SerializerMethodField()
 
@@ -191,13 +188,10 @@ class CoffeeShopListSerializer(serializers.ModelSerializer):
             "image",
             "name",
             "rating",
-            "evaluations",
             "address",
             "price_rate",
             "owner",
-            "work_time",
             "is_network",
-            "tags",
             "total_reviews",
         )
 
@@ -270,10 +264,22 @@ class IndexCoffeeShopSerializer(serializers.ModelSerializer):
     rating = serializers.SerializerMethodField()
     owner = serializers.SerializerMethodField()
     address = AddressSerializer()
+    favorite = serializers.SerializerMethodField()
+    total_reviews = serializers.SerializerMethodField()
 
     class Meta:
         model = CoffeeShop
-        fields = ['id', 'name', 'address', 'rating', 'image', 'price_rate', 'owner']
+        fields = ['id',
+                  'favorite',
+                  'image',
+                  'name',
+                  'rating',
+                  'address',
+                  'price_rate',
+                  'owner',
+                  'is_network',
+                  'total_reviews',
+                  ]
 
     def get_rating(self, obj):
         average_rating = Review.objects.filter(shop=obj).aggregate(average_rating=Avg('stars'))['average_rating']
@@ -281,3 +287,14 @@ class IndexCoffeeShopSerializer(serializers.ModelSerializer):
 
     def get_owner(self, obj):
         return obj.owner is not None
+
+    def get_favorite(self, obj):
+        request = self.context.get('request')
+        if request is None or not request.user.is_authenticated:
+            return False
+        user = request.user
+        return user.favorite_shops.filter(id=obj.id).exists()
+
+    def get_total_reviews(self, obj):
+        reviews = Review.objects.filter(shop=obj).count()
+        return reviews
