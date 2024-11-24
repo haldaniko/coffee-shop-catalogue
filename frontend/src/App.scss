@@ -13,7 +13,42 @@
 .star::before,
 .star::after {
   mask: url('./assets/icons/star.svg');
+}
+
+.budget::before,
+.budget::after {
+  mask: url('./assets/icons/$.svg');
+}
+
+.network::before,
+.network::after {
+  mask: url('./assets/icons/acc.svg');
+}
+
+.star::before,
+.star::after,
+.budget::before,
+.budget::after,
+.network::before,
+.network::after {
   mask-size: contain;
   mask-repeat: no-repeat;
   mask-position: center;
+}
+
+// .hide-scrollbar {
+//   overflow: hidden;
+// }
+
+.scrollbar-custom::-webkit-scrollbar {
+  width: 3px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background-color: #7d8d71;
+  border-radius: 3px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: #f2f2f2;
 }

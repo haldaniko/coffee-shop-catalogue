@@ -45,11 +45,9 @@ export const CreateNewPasswordPage = () => {
                 placeholder="Both password must match"
                 className="border border-default/100 rounded-lg bg-gray/10 px-[8px] py-[10px] placeholder:text-[18px] placeholder:leading-[22px] placeholder:text-gray/100 mb-8"
               />
-              <Button
-                text="Reset password"
-                type="submit"
-                appearance="primary-full"
-              />
+              <Button type="submit" appearance="primary" full>
+                Reset password
+              </Button>
             </form>
           </div>
         </PageGrid>

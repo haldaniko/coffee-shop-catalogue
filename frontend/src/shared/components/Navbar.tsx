@@ -40,11 +40,11 @@ export const Navbar = () => {
               <option value="uk">UK</option>
             </select>
 
-            <FollowLink appearance="secondary" linkTo="/login">
+            <FollowLink appearance="borderless" linkTo="/login">
               Sign in
             </FollowLink>
 
-            <FollowLink appearance="primary" linkTo="/registration">
+            <FollowLink appearance="borderless" second linkTo="/registration">
               Sign up
             </FollowLink>
             {/* <div>

@@ -61,7 +61,9 @@ export const LoginPage = () => {
                   Forgot password?
                 </a>
               </div>
-              <Button text="Sing in" type="submit" appearance="primary-full" />
+              <Button type="submit" appearance="primary" full>
+                Sign in
+              </Button>
             </form>
 
             <div className="flex relative py-8">

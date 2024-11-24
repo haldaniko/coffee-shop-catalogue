@@ -27,8 +27,18 @@ module.exports = {
       'disabled/100': '#B4B6AE',
       'background/100': '#DDD8CB',
       success: '#718D83',
+      error: '#894848',
       black: '#000000',
     },
+    boxShadow: {
+      'focus-shadow': '0 0px 0px 1px rgba(125, 141, 113, 1)',
+    },
   },
+  variants: {
+    extend: {
+      boxShadow: ['focus'],
+    },
+  },
+  safelist: ['after:bg-primary/100', 'after:bg-secondary/100'],
   plugins: [],
 };

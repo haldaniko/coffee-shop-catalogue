@@ -56,7 +56,9 @@ export const RegistrationPage = () => {
                 placeholder="Password"
                 className="border border-default/100 rounded-lg bg-gray/10 px-[8px] py-[10px] placeholder:text-[18px] placeholder:leading-[22px] placeholder:text-gray/100 mb-[32px]"
               />
-              <Button text="Sing up" type="submit" appearance="primary-full" />
+              <Button type="submit" appearance="primary" full>
+                Sing up
+              </Button>
             </form>
             <div className="flex relative py-8">
               <div className="h-[1px] my-auto bg-gray/100 grow"></div>

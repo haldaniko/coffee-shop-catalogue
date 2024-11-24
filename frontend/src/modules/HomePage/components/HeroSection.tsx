@@ -1,5 +1,4 @@
 /* eslint-disable max-len */
-import classNames from 'classnames';
 import { Button } from '../../../shared/components/Button';
 import { HeroMap } from './HeroMap';
 import searchIcon from '../../../assets/icons/search.svg';
@@ -11,6 +10,14 @@ import { HeroBadge } from './HeroBadge';
 import { useEffect, useRef } from 'react';
 import { FilterModal } from '../../../shared/components/FilterModal';
 import { Container } from '../../../shared/components/Container';
+import { HeroTabs } from './HeroTabs';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { getInputTextValue } from '../../../shared/components/FilterModal/utils';
+
+interface IFormSearchInput {
+  searchValue: string;
+}
 
 type Props = {
   cities: City[];
@@ -23,6 +30,17 @@ export const HeroSection: React.FC<Props> = ({
   selectedCity,
   setSelectedCity,
 }) => {
+  const { register, handleSubmit } = useForm<IFormSearchInput>();
+  const navigate = useNavigate();
+
+  const onSearchSubmit: SubmitHandler<IFormSearchInput> = ({ searchValue }) => {
+    const validValue = getInputTextValue(searchValue);
+
+    const path = `/coffeeshops/${validValue ? `?address=${validValue}` : ''}`;
+
+    navigate(path);
+  };
+
   const modalRef = useRef<HTMLDialogElement | null>(null);
   const changeCity = (city: string) => {
     const pickedCity = cities.find(item => item.city_name === city) || null;
@@ -52,66 +70,53 @@ export const HeroSection: React.FC<Props> = ({
   useEffect(() => {
     return () => {
       document.documentElement.style.overflow = '';
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       modalRef.current?.removeEventListener('close', closeModal);
     };
   }, []);
 
+  const filterCities = cities.map(v => v.city_name);
+
+  // eslint-disable-next-line no-console
+  console.log('Hero section');
+
   return (
     <>
-      <FilterModal modalRef={modalRef} closeModal={closeModal} />
+      <FilterModal
+        selectedCity={selectedCity?.city_name || 'Kyiv'}
+        cities={filterCities}
+        modalRef={modalRef}
+        closeModal={closeModal}
+      />
       <section>
         <Container>
-          <div className="relative pt-3 mb-20">
-            {/* styly tabs */}
-            <ul className="w-full grid grid-cols-12 gap-4 mb-[24px]">
-              {cities.map(item => {
-                const { id, city_name: city } = item;
+          <div className="pt-3 mb-20">
+            <HeroTabs
+              cities={cities}
+              selectedCity={selectedCity}
+              changeCity={changeCity}
+            />
 
-                return (
-                  <li key={id} className="col-span-2">
-                    <button
-                      className={classNames(
-                        'py-[8px] flex w-full justify-center border-b-2 border-primary/100',
-                        {
-                          'border-secondary/100':
-                            city === selectedCity?.city_name,
-                        },
-                      )}
-                      onClick={() => changeCity(city)}
-                    >
-                      <span
-                        className={classNames(
-                          'font-primary font-semibold text-[18px] leading-[27px]',
-                          {
-                            'text-gray/30': city !== selectedCity?.city_name,
-                            'text-secondary/100':
-                              city === selectedCity?.city_name,
-                          },
-                        )}
-                      >
-                        {city}
-                      </span>
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
             <div className="w-full grid grid-cols-12 gap-4 py-20 bg-hero bg-center rounded-3xl overflow-hidden relative z-10">
               <div className="col-start-2 col-span-7 z-10">
                 <HeaderH1 extraClasses="text-background/100 mb-5">
                   A convenient way to find <br /> a coffee shop
                 </HeaderH1>
-                <p className="font-primary text-xl leading-6 text-background/100">
+                <p className="text-xl leading-6 text-background/100">
                   Convenient search will help you quickly find a coffee <br />
                   shop according to your needs
                 </p>
               </div>
-              {/* add square map */}
+
               <div className="w-full aspect-square col-span-3 col-start-9 z-10">
-                <HeroMap map={selectedCity?.map_svg} />
+                <HeroMap
+                  city={selectedCity?.city_name}
+                  map={selectedCity?.map_svg}
+                />
               </div>
+
               <form
-                action="#"
+                onSubmit={handleSubmit(onSearchSubmit)}
                 className="flex gap-x-5 col-start-2 col-span-10 pt-6 mb-6 z-10"
               >
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
@@ -121,27 +126,26 @@ export const HeroSection: React.FC<Props> = ({
                     className="bg-gray/100 w-6 h-6 bg-contain absolute left-[11px] translate-y-1/2"
                   ></span>
                   <input
-                    id="location"
-                    name="location"
+                    {...register('searchValue')}
                     type="text"
                     className="w-full py-2 px-[40px] rounded-lg border-2 bg-gray/10 border-default/100 placeholder:text-gray/100 placeholder:text-xl"
                     placeholder="Location"
                   />
                 </label>
                 <Button
-                  text="Filter"
                   type="button"
-                  appearance="secondary-light"
+                  appearance="secondary"
+                  second
                   icon="filter"
                   action={openModal}
-                />
-                <Button
-                  text="Search"
-                  type="submit"
-                  appearance="primary"
-                  icon="search"
-                />
+                >
+                  Filter
+                </Button>
+                <Button type="submit" appearance="primary" icon="search">
+                  Search
+                </Button>
               </form>
+
               <div className="col-span-10 col-start-2 z-10">
                 <ul className="flex gap-x-10 justify-end">
                   {badges.map((item, index: number) => {
@@ -158,6 +162,7 @@ export const HeroSection: React.FC<Props> = ({
               </div>
               <div className="absolute bg-black opacity-70 inset-0"></div>
             </div>
+
             <Bean
               size="200"
               positionClasses="absolute -bottom-[23%] -left-[10%] rotate-[135deg]"

@@ -1,0 +1,98 @@
+{
+    "name": "Blue Bottle Coffee",
+    "rating": 4.2,
+    "evaluations": 5,
+    "owner": {
+        "id": 1,
+        "username": "john_doe",
+        "email": "john.doe@example.com",
+        "is_owner": true,
+        "is_staff": true,
+        "first_name": "John",
+        "last_name": "Doe",
+        "photo": null
+    },
+    "work_time": {
+        "id": 1,
+        "mon_open": "08:00:00",
+        "mon_close": "18:00:00",
+        "tue_open": "08:00:00",
+        "tue_close": "18:00:00",
+        "wed_open": "08:00:00",
+        "wed_close": "18:00:00",
+        "thu_open": "08:00:00",
+        "thu_close": "18:00:00",
+        "fri_open": "08:00:00",
+        "fri_close": "18:00:00",
+        "sat_open": "09:00:00",
+        "sat_close": "17:00:00",
+        "sun_open": "09:00:00",
+        "sun_close": "15:00:00"
+    },
+    "image": null,
+    "description": "A great place for coffee and pastries.",
+    "price_rate": 1,
+    "is_network": true,
+    "tags": [
+        {
+            "id": 1,
+            "name": "Wi-Fi",
+            "type": "convenience"
+        },
+        {
+            "id": 2,
+            "name": "Vegan Options",
+            "type": "activity"
+        }
+    ],
+    "phone": "415-555-1234",
+    "email": "2024-09-18 11:51:18.969253+00:00",
+    "website": "2024-09-18 11:51:18.982289+00:00",
+    "address": {
+        "city": "San Francisco",
+        "postal_code": 94103,
+        "district": "2024-09-19 16:48:07.956772+00:00",
+        "street": "123 Mission St"
+    },
+    "socials": {
+        "id": 1,
+        "instagram": "https://instagram.com/bluebottle",
+        "facebook": "https://facebook.com/bluebottle",
+        "twitter": "https://twitter.com/bluebottle"
+    },
+    "reviews": {
+        "count": 5,
+        "next": null,
+        "previous": "http://127.0.0.1:8000/api/coffeeshops/1/",
+        "results": [
+            {
+                "title": "2024-09-19 17:12:09.229006+00:00",
+                "text": "Consistent quality and service.",
+                "stars": 5,
+                "author": {
+                    "id": 3,
+                    "username": "michael_jordan",
+                    "photo": null
+                },
+                "created_at": "2024-09-19T16:38:31.585866Z",
+                "likes": 0,
+                "dislikes": 0,
+                "user_reaction": "none"
+            },
+            {
+                "title": "2024-09-19 17:12:09.229006+00:00",
+                "text": "Great coffee but a bit pricey.",
+                "stars": 4,
+                "author": {
+                    "id": 2,
+                    "username": "jane_smith",
+                    "photo": null
+                },
+                "created_at": "2024-09-19T16:38:31.585866Z",
+                "likes": 1,
+                "dislikes": 0,
+                "user_reaction": "liked"
+            }
+        ]
+    }
+}

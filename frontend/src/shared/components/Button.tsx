@@ -1,64 +1,73 @@
-/* eslint-disable max-len */
 import filter from '../../assets/icons/filter.svg';
 import search from '../../assets/icons/search.svg';
 import plus from '../../assets/icons/plus.svg';
+import classNames from 'classnames';
 
 type Props = {
-  text: string;
+  children: React.ReactNode;
   type: 'submit' | 'reset' | 'button';
-  appearance: 'primary' | 'primary-full' | 'secondary' | 'secondary-light';
+  appearance: 'primary' | 'secondary';
+  full?: boolean;
+  second?: boolean;
   icon?: string;
   action?: () => void | undefined;
 };
 
 export const Button: React.FC<Props> = ({
-  text,
+  children,
   type,
   appearance,
+  full,
+  second,
   icon,
   action = () => {},
 }) => {
-  const general =
-    'px-4 py-2 flex gap-2 items-center rounded-lg border-2 text-xl leading-[27px] font-primary h-fit';
-  const primary = `${general} bg-primary/100 border-primary/100 font-semibold text-secondary/100`;
-  const primaryFull = `${primary} w-full justify-center`;
-  const secondary = `${general} border-primary/100 text-secondary/100`;
-  const secondaryLight = `${general} border-background/100 text-background/100`;
-  const textStyle = '';
+  const general = `px-4 py-2 flex gap-2 items-center rounded-lg border-2 h-fit group ${full && 'w-full justify-center'}`;
+  const text = `text-xl leading-[27px]`;
+
+  const primaryText = `font-semibold text-secondary/100 ${text}`;
+  const primaryHover = `hover:border-focused/100 hover:bg-focused/100`;
+  const primary = `bg-primary/100 border-primary/100 ${primaryText} ${general} ${primaryHover}`;
+
+  const secondaryTextColor = `${second ? 'background/100' : 'secondary/100'}`;
+  const secondaryText = `text-${secondaryTextColor} ${text}`;
+  const secondaryHoverColor = `${second ? 'primary/100' : 'focused/100'}`;
+  const secondaryHover = `hover:border-${secondaryHoverColor} hover:bg-${secondaryHoverColor} ${second && `hover:text-${secondaryHoverColor}`}`;
+  const secondaryBorderColor = `${second ? 'background/100' : 'primary/100'}`;
+  const secondary = `border-${secondaryBorderColor} ${secondaryText} ${general} ${secondaryHover}`;
+
   const selectedIcon: { [index: string]: string } = {
     filter: `url(${filter})`,
     search: `url(${search})`,
     plus: `url(${plus})`,
   };
 
-  let buttonStyle = '';
+  let styles = '';
 
   switch (appearance) {
     case 'primary':
-      buttonStyle += primary;
-      break;
-    case 'primary-full':
-      buttonStyle += primaryFull;
+      styles += primary;
       break;
     case 'secondary':
-      buttonStyle += secondary;
-      break;
-    case 'secondary-light':
-      buttonStyle += secondaryLight;
+      styles += secondary;
       break;
     default:
       break;
   }
 
   return (
-    <button type={type} className={buttonStyle} onClick={action}>
+    <button type={type} className={styles} onClick={action}>
       {icon && (
         <span
           style={{ maskImage: selectedIcon[icon] }}
-          className={`w-6 h-6 ${appearance === 'primary' ? 'bg-secondary/100' : 'bg-background/100'}`}
+          className={classNames('w-6 h-6', {
+            'bg-secondary/100': appearance === 'primary',
+            'bg-background/100': appearance !== 'primary',
+            'group-hover:bg-primary/100': appearance === 'secondary' && second,
+          })}
         ></span>
       )}
-      <span className={textStyle}>{text}</span>
+      <span>{children}</span>
     </button>
   );
 };
