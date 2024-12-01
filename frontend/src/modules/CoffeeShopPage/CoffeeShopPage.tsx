@@ -3,351 +3,223 @@ import { Button } from '../../shared/components/Button';
 import { Container } from '../../shared/components/Container';
 import { PageGrid } from '../../shared/components/PageGrid';
 import { HeaderH1 } from '../../shared/components/typography/HeaderH1';
-import { HeaderH3 } from '../../shared/components/typography/HeaderH3';
 import { SectionTitle } from '../../shared/components/typography/SectionTitle';
 import { TextBodyP } from '../../shared/components/typography/TextBodyP';
 import { CommentCard } from './CommentCard';
 // import starIcon from '../../assets/icons/star.svg';
-import twitterIcon from '../../assets/icons/twitter.svg';
-import facebookIcon from '../../assets/icons/facebook.svg';
-import instagramIcon from '../../assets/icons/instagram.svg';
+import { useEffect, useState } from 'react';
+import { getCoffeeShop } from '../../api/coffeeShop';
+import { useParams } from 'react-router-dom';
+import { ICoffeeShop } from '../../shared/types/coffeeShop/CoffeeShop';
+import {
+  getCurrentDay,
+  getCurrentHour,
+  INITIAL_STATE,
+  PRICING_POLICY,
+} from './utils';
+import { WorkTime } from '../../shared/types/coffeeShop/WorkTime';
+import classNames from 'classnames';
+import { Details } from '../../shared/components/Details';
+import { WorkingTime } from './components/WorkingTime';
+import { HeaderH4 } from '../../shared/components/typography/HeaderH4';
+import { Frame } from './components/Frame';
+import { SocialLink } from './components/SocialLink';
+import { Bean } from '../../shared/components/Bean';
 
-type TMockComment = {
-  id: number;
-  user: {
-    id: number;
-    name: string;
-    ava: string;
-  };
-  title: string;
-  comment: string;
-  evaluation: number;
-  likes: number;
-  dislikes: number;
-  createdAt: string;
+type IsOpened = {
+  [key: string]: boolean;
 };
 
-const mockComments: TMockComment[] = [
-  {
-    id: 1,
-    user: {
-      id: 23,
-      name: 'Julia',
-      ava: 'image',
-    },
-    title: 'Delicious coffee',
-    comment:
-      'Excellent service, delicious coffee, an ideal choice for any time of the day. This is my favorite corner of the city!',
-    evaluation: 5,
-    likes: 10,
-    dislikes: 0,
-    createdAt: '2023-01-10',
-  },
-  {
-    id: 2,
-    user: {
-      id: 223,
-      name: 'Eugene',
-      ava: 'image',
-    },
-    title: 'Cool coffee shop',
-    comment:
-      'I have never tried a better latte than here! The interior is modern and stylish, and the staff is always smiling and friendly.',
-    evaluation: 4,
-    likes: 4,
-    dislikes: 0,
-    createdAt: '2023-04-16',
-  },
-  {
-    id: 3,
-    user: {
-      id: 53,
-      name: 'Alisa',
-      ava: 'image',
-    },
-    title: 'Cozy atmosphere',
-    comment:
-      'I love this coffee shop for its unique drinks and soulful atmosphere. I always find something new and delicious!',
-    evaluation: 5,
-    likes: 6,
-    dislikes: 1,
-    createdAt: '2023-01-13',
-  },
-];
-
-type TWorkTime = {
-  id: number;
-  mon_open: string;
-  mon_close: string;
-  tue_open: string;
-  tue_close: string;
-  wed_open: string;
-  wed_close: string;
-  thu_open: string;
-  thu_close: string;
-  fri_open: string;
-  fri_close: string;
-  sat_open: string;
-  sat_close: string;
-  sun_open: string;
-  sun_close: string;
+const isOpened: IsOpened = {
+  schedule: false,
 };
-
-type TCoffeeShopTag = {
-  id: number;
-  name: string;
-  type: 'convenience' | 'activity';
-};
-
-type TCoffeeShopSocials = {
-  id: number;
-  [key: string]: string | number | undefined;
-};
-
-type TOwner = {
-  id: number;
-  username: string;
-  email: string;
-  is_owner: boolean;
-  is_staff: boolean;
-  first_name: string;
-  last_name: string;
-  photo: string;
-};
-
-type TCoffeeShopAddress = {
-  city: string;
-  postal_code: 94103;
-  street: string;
-};
-
-type TCoffeeShop = {
-  name: string;
-  phone: string;
-  image: null;
-  description: string;
-  work_time: TWorkTime;
-  tags: TCoffeeShopTag[];
-  socials: TCoffeeShopSocials;
-  owner: TOwner;
-  address: TCoffeeShopAddress;
-};
-
-const mockCoffeeShopData: TCoffeeShop = {
-  name: 'Blue Bottle Coffee',
-  phone: '415-555-1234',
-  image: null,
-  description: 'A great place for coffee and pastries.',
-  work_time: {
-    id: 1,
-    mon_open: '08:00:00',
-    mon_close: '18:00:00',
-    tue_open: '08:00:00',
-    tue_close: '18:00:00',
-    wed_open: '08:00:00',
-    wed_close: '18:00:00',
-    thu_open: '08:00:00',
-    thu_close: '18:00:00',
-    fri_open: '08:00:00',
-    fri_close: '18:00:00',
-    sat_open: '09:00:00',
-    sat_close: '17:00:00',
-    sun_open: '09:00:00',
-    sun_close: '15:00:00',
-  },
-  tags: [
-    {
-      id: 1,
-      name: 'Wi-Fi',
-      type: 'convenience',
-    },
-    {
-      id: 2,
-      name: 'Vegan Options',
-      type: 'activity',
-    },
-  ],
-  socials: {
-    id: 1,
-    instagram: 'https://instagram.com/bluebottle',
-    facebook: 'https://facebook.com/bluebottle',
-    twitter: 'https://twitter.com/bluebottle',
-  },
-  owner: {
-    id: 1,
-    username: 'john_doe',
-    email: 'john.doe@example.com',
-    is_owner: true,
-    is_staff: true,
-    first_name: 'John',
-    last_name: 'Doe',
-    photo: 'null',
-  },
-  address: {
-    city: 'San Francisco',
-    postal_code: 94103,
-    street: '123 Mission St',
-  },
-};
-
-// const title = 'Zakapelok';
-const rating = '4.6';
-const amountOfEvaluations = '234';
-const openingTime = '08:00';
-const closingTime = '22:00';
 
 export const CoffeeShop = () => {
-  const getCurrentHour = (): string => {
-    const now = new Date();
-    const hours = now.getHours();
+  const [coffeeShop, setCoffeeShop] = useState<ICoffeeShop>(INITIAL_STATE);
+  const { 'coffee-shop-id': coffeeShopId } = useParams();
+  const [isScheduleOpen, setIsScheduleOpen] = useState(isOpened);
 
-    return hours.toString().padStart(2, '0') + ':00';
-  };
+  const { website, email, phone, address, socials, reviews } = coffeeShop;
+  const { city, street, district } = address;
 
-  const currentHour = getCurrentHour();
+  const socialsList = Object.entries(socials).filter(v => v[0] !== 'id');
 
-  const isCoffeeShopOpen =
-    currentHour > openingTime && currentHour < closingTime;
+  useEffect(() => {
+    getCoffeeShop(Number(coffeeShopId))
+      .then(data => {
+        // eslint-disable-next-line no-console
+        console.log('getCoffeeShop', data);
 
-  const {
-    name: title,
-    phone,
-    address: { city, street },
-  } = mockCoffeeShopData;
+        setCoffeeShop(data);
+      })
+      .catch(() => {
+        // eslint-disable-next-line no-console
+        console.log('error');
+      });
+  }, [coffeeShopId]);
+
+  const currentTime = getCurrentHour();
+  const currentDay = getCurrentDay();
+
+  const openingTime = coffeeShop?.work_time[
+    `${currentDay}_open` as keyof Omit<WorkTime, 'id'>
+  ].slice(0, -3);
+
+  const closingTime = coffeeShop?.work_time[
+    `${currentDay}_close` as keyof Omit<WorkTime, 'id'>
+  ].slice(0, -3);
+
+  let isCoffeeShopOpen = false;
+
+  if (openingTime && closingTime) {
+    isCoffeeShopOpen = currentTime > openingTime && currentTime < closingTime;
+  }
+
+  const activities = coffeeShop?.tags.filter(item => item.type === 'activity');
+  const conveniences = coffeeShop?.tags.filter(
+    item => item.type === 'convenience',
+  );
+
+  const type = coffeeShop?.is_network
+    ? 'Network coffee shop'
+    : 'Local coffee shops';
 
   return (
-    <main className="grow">
+    <main className="grow relative">
       <Container>
-        <PageGrid>
+        <PageGrid extraClasses="mb-4">
           <div className="col-span-9 flex gap-4">
             <HeaderH1 extraClasses="inline-block text-secondary/100">
-              {title}
+              {coffeeShop?.name}
             </HeaderH1>
 
-            <p className="relative text-lg leading-[22px] text-gray/100 pt-[15px] pl-7 before:absolute before:block before:w-6 before:h-6 before:bg-primary/100 before:left-0 star">
-              <span className="font-semibold text-2xl text-secondary/100 mr-1">
-                {rating}
-              </span>
-              {`from ${amountOfEvaluations} reviews`}
-            </p>
+            <div>
+              <p className="relative text-lg leading-[22px] text-gray/100 pl-7 pt-4 before:absolute before:block before:w-4 before:h-4 before:bg-primary/100 before:left-[5px] before:bottom-2 star">
+                <span className="font-semibold text-2xl leading-8 text-secondary/100 mr-1">
+                  {coffeeShop?.rating}
+                </span>
+                {`from ${coffeeShop?.evaluations} reviews`}
+              </p>
+            </div>
           </div>
           <TextBodyP extraClasses="col-span-3 pt-5 text-gray/100 text-right">
             Created by the owner
           </TextBodyP>
-
-          <div className="col-span-3 flex items-center">
-            <p className="relative font-semibold text-2xl text-success star-marker after:bg-secondary/100 after:absolute after:w-5 after:h-5 after:block after:right-[6px] after:top-[38%] after:translate-y-[-50%] pr-8">
-              {isCoffeeShopOpen ? 'Open' : ' Close'}
-            </p>
-            <p className="text-2xl leading-[36px] text-secondary/100">
-              {isCoffeeShopOpen
-                ? `Closes at ${closingTime}`
-                : `Opens at ${openingTime}`}
-            </p>
-          </div>
-          <div className="flex justify-between w-full col-span-3 py-1">
-            <TextBodyP>Working time</TextBodyP>
-            <button>s</button>
-          </div>
         </PageGrid>
 
-        <div>currentHour = {currentHour}</div>
+        <div className="flex items-center mb-2">
+          <p
+            className={classNames(
+              'relative font-semibold text-2xl star-marker after:bg-secondary/100 after:absolute after:w-5 after:h-5 after:block after:right-[6px] after:top-[38%] after:translate-y-[-50%] pr-8',
+              {
+                'text-success': isCoffeeShopOpen,
+                'text-gray/30': !isCoffeeShopOpen,
+              },
+            )}
+          >
+            {isCoffeeShopOpen ? 'Open' : ' Closed'}
+          </p>
+          <p className="text-2xl leading-[36px] text-secondary/100">
+            {isCoffeeShopOpen
+              ? `Closes at ${closingTime}`
+              : `Opens at ${openingTime}`}
+          </p>
+        </div>
+        <Details
+          isOpen={isScheduleOpen}
+          setIsOpen={setIsScheduleOpen}
+          name={'schedule'}
+          title={'Working time'}
+          extraClasses="mb-10"
+        >
+          <WorkingTime
+            schedule={coffeeShop?.work_time}
+            currentDay={currentDay}
+          />
+        </Details>
 
-        <section className="mb-20">
+        <Bean
+          size="80"
+          positionClasses="absolute top-[140px] right-0 rotate-[20deg]"
+        />
+
+        <section className="mb-20 relative">
           <SectionTitle>Details</SectionTitle>
-          <PageGrid>
-            <div className="col-span-3">
-              <HeaderH3 extraClasses="mb-4">Pricing policy</HeaderH3>
-              <TextBodyP>middle class</TextBodyP>
-            </div>
+          <PageGrid extraClasses="relative z-10">
+            <Frame extraClasses="col-span-3">
+              <HeaderH4 extraClasses="mb-4">Pricing policy</HeaderH4>
+              <TextBodyP extraClasses="relative before:absolute before:block before:w-6 before:h-6 before:bg-primary/100 before:left-0 before:top-[-1px] budget pl-10">
+                {coffeeShop ? PRICING_POLICY[coffeeShop?.price_rate] : 'TBD'}
+              </TextBodyP>
+            </Frame>
 
-            <div className="col-span-3">
-              <HeaderH3 extraClasses="mb-4">Type</HeaderH3>
-              <TextBodyP>Network coffee shop</TextBodyP>
-            </div>
+            <Frame extraClasses="col-span-3">
+              <HeaderH4 extraClasses="mb-4">Type</HeaderH4>
+              <TextBodyP extraClasses="relative before:absolute before:block before:w-6 before:h-6 before:bg-primary/100 before:left-0 before:top-[-1px] network pl-10">
+                {type || 'TBD'}
+              </TextBodyP>
+            </Frame>
 
-            <div className="col-span-3">
-              <HeaderH3 extraClasses="mb-4">Activities</HeaderH3>
-              <TextBodyP>1</TextBodyP>
-            </div>
+            <Frame extraClasses="col-span-3">
+              <HeaderH4 extraClasses="mb-4">Activities</HeaderH4>
+              {activities?.map((item, index) => {
+                return <TextBodyP key={index}>{item.name}</TextBodyP>;
+              })}
+            </Frame>
 
-            <div className="col-span-3">
-              <HeaderH3 extraClasses="mb-4">Conveniences</HeaderH3>
-              <TextBodyP>2</TextBodyP>
-            </div>
+            <Frame extraClasses="col-span-3">
+              <HeaderH4 extraClasses="mb-4">Conveniences</HeaderH4>
+              {conveniences?.map((item, index) => {
+                return <TextBodyP key={index}>{item.name}</TextBodyP>;
+              })}
+            </Frame>
           </PageGrid>
+
+          <Bean
+            size="150"
+            positionClasses="absolute top-0 left-[56%] rotate-[155deg]"
+          />
         </section>
 
-        <section className="mb-20">
+        <section className="mb-20 relative">
           <SectionTitle>Contacts</SectionTitle>
-          <PageGrid>
+          <PageGrid extraClasses=" relative z-10">
             <div className="col-span-3">
-              <div className="mb-[24px]">
-                <HeaderH3 extraClasses="mb-4">Tel.</HeaderH3>
+              <Frame extraClasses="mb-[24px]">
+                <HeaderH4 extraClasses="mb-4">Tel.</HeaderH4>
                 <TextBodyP>{phone}</TextBodyP>
-              </div>
-              <div className="mb-[24px]">
-                <HeaderH3 extraClasses="mb-4">Email</HeaderH3>
-                <TextBodyP>email@email.com</TextBodyP>
-              </div>
-              <div>
-                <HeaderH3 extraClasses="mb-4">Website</HeaderH3>
-                <TextBodyP>website.com</TextBodyP>
-              </div>
+              </Frame>
+              <Frame extraClasses="mb-[24px]">
+                <HeaderH4 extraClasses="mb-4">Email</HeaderH4>
+                <TextBodyP>{email}</TextBodyP>
+              </Frame>
+              <Frame>
+                <HeaderH4 extraClasses="mb-4">Website</HeaderH4>
+                <TextBodyP>{website}</TextBodyP>
+              </Frame>
             </div>
-
             <div className="col-span-3">
-              <div className="mb-[24px]">
-                <HeaderH3 extraClasses="mb-4">Address</HeaderH3>
+              <Frame extraClasses="mb-[24px]">
+                <HeaderH4 extraClasses="mb-4">Address</HeaderH4>
                 <TextBodyP extraClasses="mb-2">{city}</TextBodyP>
-                <TextBodyP extraClasses="mb-2">district</TextBodyP>
+                <TextBodyP extraClasses="mb-2">{district}</TextBodyP>
                 <TextBodyP>{street}</TextBodyP>
-              </div>
-              <div>
-                <HeaderH3 extraClasses="mb-4">Social</HeaderH3>
+              </Frame>
+              <Frame>
+                <HeaderH4 extraClasses="mb-4">Social</HeaderH4>
                 <ul className="flex gap-6">
-                  <li>
-                    <a href="#">
-                      <span
-                        style={{
-                          maskImage: `url(${twitterIcon})`,
-                          maskSize: 'cover',
-                          maskRepeat: 'no-repeat',
-                        }}
-                        className="block w-11 h-11 bg-primary/100"
-                      ></span>
-                    </a>
-                  </li>
+                  {socialsList.map((item, index) => {
+                    const [network, url] = item;
 
-                  <li>
-                    <a href="#">
-                      <span
-                        style={{
-                          maskImage: `url(${facebookIcon})`,
-                          maskSize: 'cover',
-                          maskRepeat: 'no-repeat',
-                        }}
-                        className="block w-11 h-11 bg-primary/100"
-                      ></span>
-                    </a>
-                  </li>
-
-                  <li>
-                    <a href="#">
-                      <span
-                        style={{
-                          maskImage: `url(${instagramIcon})`,
-                          maskSize: 'cover',
-                          maskRepeat: 'no-repeat',
-                        }}
-                        className="block w-11 h-11 bg-primary/100"
-                      ></span>
-                    </a>
-                  </li>
+                    return (
+                      <li key={index}>
+                        <SocialLink to={url as string} network={network} />
+                      </li>
+                    );
+                  })}
                 </ul>
-              </div>
+              </Frame>
             </div>
-
             <div className="col-span-6 rounded-lg overflow-hidden">
               <iframe
                 width="100%"
@@ -362,39 +234,40 @@ export const CoffeeShop = () => {
               </iframe>
             </div>
           </PageGrid>
+
+          <Bean
+            size="200"
+            positionClasses="absolute top-[13%] -left-[9%] rotate-[155deg]"
+          />
         </section>
 
         <section className="mb-20">
           <div className="flex justify-between">
             <SectionTitle>Reviews</SectionTitle>
-            <Button
-              text="Add review"
-              type="button"
-              appearance="primary"
-              icon="plus"
-            />
+            <Button type="button" appearance="primary" icon="plus">
+              Add review
+            </Button>
           </div>
           <ul className="flex flex-col gap-4">
-            {mockComments.map(commentItem => {
+            {reviews.results.map((item, index) => {
               const {
-                id,
-                createdAt,
-                user: { name },
-                title: commentTitle,
-                evaluation,
-                comment,
+                author: { username },
+                created_at: createdAt,
+                title,
+                stars,
+                text,
                 likes,
                 dislikes,
-              } = commentItem;
+              } = item;
 
               return (
-                <li key={id}>
+                <li key={index}>
                   <CommentCard
-                    name={name}
-                    createdAt={createdAt}
-                    title={commentTitle}
-                    evaluation={evaluation}
-                    comment={comment}
+                    name={username}
+                    createdAt={createdAt.slice(0, 10)}
+                    title={title}
+                    evaluation={stars}
+                    comment={text}
                     likes={likes}
                     dislikes={dislikes}
                   />

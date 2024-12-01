@@ -2,37 +2,15 @@
 import { CoffeeShopCard } from '../../../shared/components/CoffeeShopCard';
 import { PageGrid } from '../../../shared/components/PageGrid';
 import { SectionTitle } from '../../../shared/components/typography/SectionTitle';
-import imgZakapelok from '../../../assets/images/preview-zakapelok.jpg';
-import imgArtVillage from '../../../assets/images/preview-art-village.jpg';
-import imgLvivCroissants from '../../../assets/images/preview-lviv-croissants.jpg';
 import { Bean } from '../../../shared/components/Bean';
 import { Container } from '../../../shared/components/Container';
+import { ICoffeeShopCard } from '../../../shared/types/coffeeShop/CoffeeShopCard';
 
-const mostPopular = [
-  {
-    image: imgZakapelok,
-    title: 'ZAKAPELOK',
-    address: 'Yaroslavska St, 47/29, Kyiv, 04070',
-    rating: 4.8,
-    price: 1,
-  },
-  {
-    image: imgArtVillage,
-    title: ' Art Village',
-    address: `Naberezhno-Khreshachatyts'ka St, 39`,
-    rating: 5,
-    price: 2,
-  },
-  {
-    image: imgLvivCroissants,
-    title: 'Lviv Croissants',
-    address: 'Verkhnii Val St, 54',
-    rating: 4.7,
-    price: 0,
-  },
-];
+type Props = {
+  coffeeShops: ICoffeeShopCard[] | null;
+};
 
-export const MostPopularSection = () => {
+export const MostPopularSection: React.FC<Props> = ({ coffeeShops }) => {
   return (
     <section>
       <Container>
@@ -40,17 +18,19 @@ export const MostPopularSection = () => {
           <SectionTitle>Most Popular</SectionTitle>
           <PageGrid>
             <ul className="flex gap-4 col-span-4 mb-[24px] z-10">
-              {mostPopular.map((cs, index) => {
-                const { image, title, address, rating, price } = cs;
+              {coffeeShops?.map((cs, index) => {
+                // eslint-disable-next-line @typescript-eslint/naming-convention
+                const { id, image, name, address, rating, price_rate } = cs;
 
                 return (
                   <li key={index} className="min-w-full">
                     <CoffeeShopCard
+                      id={id}
                       image={image}
-                      title={title}
+                      title={name}
                       address={address}
                       rating={rating}
-                      price={price}
+                      price={price_rate}
                     />
                   </li>
                 );

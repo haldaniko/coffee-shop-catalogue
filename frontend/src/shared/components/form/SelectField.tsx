@@ -1,4 +1,5 @@
-import Select, { OptionProps } from 'react-select';
+/* eslint-disable max-len */
+import Select, { ActionMeta, OptionProps, SingleValue } from 'react-select';
 import { SelectOption } from '../../types/SelectOption';
 import classNames from 'classnames';
 import doneIcon from '../../../assets/icons/done.svg';
@@ -31,20 +32,35 @@ const CustomOption: React.FC<CustomOptionProps> = props => {
 
 type Props = {
   options: SelectOption[];
+  placeholder: string;
   // containerClasses: string;
+  value: SingleValue<SelectOption> | null;
+  onChange: (
+    newValue: SingleValue<SelectOption> | null,
+    actionMeta: ActionMeta<SelectOption>,
+  ) => void;
 };
 
-export const SelectField: React.FC<Props> = ({ options }) => {
+export const SelectField: React.FC<Props> = ({
+  options,
+  placeholder,
+  value,
+  onChange,
+}) => {
   return (
     <Select
-      placeholder="Select city..."
+      value={value}
+      onChange={(newValue, actionMeta) => {
+        onChange(newValue as SingleValue<SelectOption> | null, actionMeta);
+      }}
+      placeholder={placeholder}
       components={{ Option: CustomOption }}
       classNames={{
         placeholder: () =>
           'font-primary text-[18px] leading-[22px] text-gray/100',
         control: state =>
           state.isFocused
-            ? 'border-2 border-primary/100 rounded-lg py-[7px] px-2'
+            ? 'border border-primary/100 rounded-lg py-[7px] px-2 shadow-[0_0px_0px_1px_rgba(0,0,0,1)]'
             : 'border border-primary/100 rounded-lg py-[7px] px-2',
         menu: () => 'bg-gray/10 border rounded-lg border-primary/100 py-[7px]',
         indicatorsContainer: state => {

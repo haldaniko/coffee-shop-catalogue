@@ -1,0 +1,89 @@
+{
+  "name": "ZAKAPELOK",
+  "rating": 4.8,
+  "evaluations": 328,
+  "owner": {
+    "id": 1,
+    "username": "john_doe",
+    "email": "john.doe@example.com",
+    "is_owner": true,
+    "is_staff": true,
+    "first_name": "John",
+    "last_name": "Doe",
+    "photo": null
+  },
+  "work_time": {
+    "id": 1,
+    "mon_open": "08:00:00",
+    "mon_close": "18:00:00",
+    "tue_open": "08:00:00",
+    "tue_close": "18:00:00",
+    "wed_open": "08:00:00",
+    "wed_close": "18:00:00",
+    "thu_open": "08:00:00",
+    "thu_close": "18:00:00",
+    "fri_open": "08:00:00",
+    "fri_close": "18:00:00",
+    "sat_open": "09:00:00",
+    "sat_close": "17:00:00",
+    "sun_open": "09:00:00",
+    "sun_close": "15:00:00"
+  },
+  "image": [],
+  "description": "A great place for coffee and pastries.",
+  "pricing_policy": "Budgetary",
+  "type": "local",
+  "activities": [
+    {
+      "id": 1,
+      "name": "Board games"
+    },
+    {
+      "id": 2,
+      "name": "Books"
+    }
+  ],
+  "conveniences": [
+    {
+      "id": 1,
+      "name": "WiFi"
+    },
+    {
+      "id": 2,
+      "name": "Restroom"
+    },
+    {
+      "id": 3,
+      "name": "Parking"
+    }
+  ],
+  "phone": "415-555-1234",
+  "email": "john.doe@example.com",
+  "website": "site.com",
+  "address": {
+    "city": "San Francisco",
+    "district": "asd",
+    "street": "123 Mission St",
+    "postal_code": 94103
+  },
+  "socials": {
+    "id": 1,
+    "instagram": "https://instagram.com/bluebottle",
+    "facebook": "https://facebook.com/bluebottle",
+    "twitter": "https://twitter.com/bluebottle"
+  },
+  "reviews": [
+    {
+      "user": {
+        "name": "Julia",
+        "image": ""
+      },
+      "createdAt": "2023-01-10",
+      "title": "Delicious coffee",
+      "evaluation": 5,
+      "text": "Excellent service, delicious coffee, an ideal choice for any time of the day. This is my favorite corner of the city!",
+      "likes": [1, 32, 54],
+      "dislikes": []
+    }
+  ]
+}

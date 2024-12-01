@@ -1,0 +1,81 @@
+{
+  "name": "Blue Bottle Coffee",
+  "rating": 4.5,
+  "evaluations": 2,
+  "owner": {
+    "id": 1,
+    "username": "john_doe",
+    "email": "john.doe@example.com",
+    "is_owner": true,
+    "is_staff": true,
+    "first_name": "John",
+    "last_name": "Doe",
+    "photo": null
+  },
+  "work_time": {
+    "id": 1,
+    "mon_open": "08:00:00",
+    "mon_close": "18:00:00",
+    "tue_open": "08:00:00",
+    "tue_close": "18:00:00",
+    "wed_open": "08:00:00",
+    "wed_close": "18:00:00",
+    "thu_open": "08:00:00",
+    "thu_close": "18:00:00",
+    "fri_open": "08:00:00",
+    "fri_close": "18:00:00",
+    "sat_open": "09:00:00",
+    "sat_close": "17:00:00",
+    "sun_open": "09:00:00",
+    "sun_close": "15:00:00"
+  },
+  "image": null,
+  "description": "A great place for coffee and pastries.",
+  "price_rate": 1,
+  "is_network": true,
+  "tags": [
+    {
+      "id": 1,
+      "name": "Wi-Fi",
+      "type": "convenience"
+    },
+    {
+      "id": 2,
+      "name": "Vegan Options",
+      "type": "activity"
+    }
+  ],
+  "phone": "415-555-1234",
+  "email": "2024-09-18 11:51:18.969253+00:00",
+  "website": "2024-09-18 11:51:18.982289+00:00",
+  "address": {
+    "city": "San Francisco",
+    "postal_code": 94103,
+    "street": "123 Mission St"
+  },
+  "socials": {
+    "id": 1,
+    "instagram": "https://instagram.com/bluebottle",
+    "facebook": "https://facebook.com/bluebottle",
+    "twitter": "https://twitter.com/bluebottle"
+  },
+  "reviews": [
+    {
+      "id": 1,
+      "user": {
+        "name": "Julia",
+        "image": ""
+      },
+      "createdAt": "2023-01-10",
+      "title": "Delicious coffee",
+      "evaluation": 5,
+      "text": "Excellent service, delicious coffee, an ideal choice for any time of the day. This is my favorite corner of the city!",
+      "likes": [
+        1,
+        32,
+        54
+      ],
+      "dislikes": []
+    }
+  ]
+}

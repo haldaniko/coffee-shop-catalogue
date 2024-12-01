@@ -41,11 +41,9 @@ export const ResetPasswordPage = () => {
                   I’m not a robot
                 </label>
               </div>
-              <Button
-                text="Send instruction"
-                type="submit"
-                appearance="primary-full"
-              />
+              <Button type="submit" appearance="primary" full>
+                Send instruction
+              </Button>
             </form>
           </div>
         </PageGrid>

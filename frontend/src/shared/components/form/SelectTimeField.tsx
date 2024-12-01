@@ -1,4 +1,5 @@
-import Select, { OptionProps } from 'react-select';
+/* eslint-disable max-len */
+import Select, { ActionMeta, OptionProps, SingleValue } from 'react-select';
 import { SelectOption } from '../../types/SelectOption';
 import classNames from 'classnames';
 import doneIcon from '../../../assets/icons/done.svg';
@@ -31,12 +32,25 @@ const CustomOption: React.FC<CustomOptionProps> = props => {
 
 type Props = {
   options: SelectOption[];
-  // containerClasses: string;
+  value: SingleValue<SelectOption> | null;
+  onChange: (
+    newValue: SingleValue<SelectOption> | null,
+    actionMeta: ActionMeta<SelectOption>,
+  ) => void;
 };
 
-export const SelectTimeField: React.FC<Props> = ({ options }) => {
+export const SelectTimeField: React.FC<Props> = ({
+  options,
+  value,
+  onChange,
+}) => {
   return (
     <Select
+      value={value}
+      defaultValue={options[0]}
+      onChange={(newValue, actionMeta) => {
+        onChange(newValue as SingleValue<SelectOption> | null, actionMeta);
+      }}
       isSearchable={false}
       components={{ Option: CustomOption, DropdownIndicator: () => null }}
       classNames={{
@@ -44,9 +58,10 @@ export const SelectTimeField: React.FC<Props> = ({ options }) => {
           'font-primary text-[18px] leading-[22px] text-gray/100',
         control: state =>
           state.isFocused
-            ? 'border-2 border-primary/100 rounded-lg py-[7px] px-5'
+            ? 'border border-primary/100 rounded-lg py-[7px] px-5 shadow-[0_0px_0px_1px_rgba(0,0,0,1)]'
             : 'border border-primary/100 rounded-lg py-[7px] px-5',
         menu: () => 'bg-gray/10 border rounded-lg border-primary/100 py-[7px]',
+        menuList: () => 'scrollbar-custom',
         // indicatorsContainer: () => 'absolute hidden bg-primary/100',
         container: () => 'w-fit',
         // dropdownIndicator: () => 'hidden',
@@ -65,7 +80,6 @@ export const SelectTimeField: React.FC<Props> = ({ options }) => {
         // },
       }}
       options={options}
-      defaultValue={options[0]}
       unstyled
     />
   );

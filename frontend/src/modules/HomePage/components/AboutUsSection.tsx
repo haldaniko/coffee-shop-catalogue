@@ -11,7 +11,6 @@ import { useState } from 'react';
 import classNames from 'classnames';
 import { PageGrid } from '../../../shared/components/PageGrid';
 import { Bean } from '../../../shared/components/Bean';
-import { City } from '../../../shared/types/City';
 import { Container } from '../../../shared/components/Container';
 
 type IsOpened = {
@@ -25,12 +24,19 @@ const isOpened: IsOpened = {
 };
 
 type Props = {
-  trustBadges: Omit<City, 'id' | 'city_name' | 'map_svg'>;
+  shops: number;
+  owners: number;
+  evaluations: number;
+  comments: number;
 };
 
-export const AboutUs: React.FC<Props> = ({ trustBadges }) => {
+export const AboutUs: React.FC<Props> = ({
+  shops,
+  owners,
+  evaluations,
+  comments,
+}) => {
   const [isOpen, setIsOpen] = useState<IsOpened>(isOpened);
-  const { shops, owners, evaluations, comments } = trustBadges;
 
   return (
     <section>

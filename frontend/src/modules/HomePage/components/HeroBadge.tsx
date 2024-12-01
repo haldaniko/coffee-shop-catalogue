@@ -9,10 +9,10 @@ type Props = {
 export const HeroBadge: React.FC<Props> = ({ title, value }) => {
   return (
     <>
-      <span className="font-primary font-bold text-4xl leading-[48px] text-background/100 mb-1">
-        {value}
+      <span className="font-bold text-[40px] leading-[48px] text-background/100 mb-1">
+        {value || '0'}
       </span>
-      <p className="font-primary font-medium text-[18px] leading-[24px] text-background/100">
+      <p className="font-medium text-lg leading-6 text-background/100">
         {HeroBadges[title]}
       </p>
     </>

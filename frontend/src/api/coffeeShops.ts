@@ -1,6 +1,6 @@
-import { City } from '../shared/types/City';
+import { ICoffeeShopCard } from '../shared/types/coffeeShop/CoffeeShopCard';
 import { client } from '../shared/utils/fetchClient';
 
-export const getCities = () => {
-  return client.get<City[]>('api/cities.json');
+export const getCoffeeShops = (params: string) => {
+  return client.get<ICoffeeShopCard[]>(`api/coffeeshops/${params}`);
 };
